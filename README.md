@@ -4,6 +4,8 @@ Game Version: **3.3.5a**
 
 Copyright (C) 2018 [Kader Bouyakoub](https://github.com/bkader)
 
+![GUI Screenshot](screenshot.png "GUI Screenshot")
+
 ## What Features Does It Offer?
 
 It was mainly made for raid leaders and it offers a lot of useful features to really make raid leading as easy as possible. To enumerate the features it offers, we go step by step:
