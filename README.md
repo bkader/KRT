@@ -4,7 +4,7 @@ Game Version: **3.3.5a**
 
 Copyright (C) 2018 [Kader Bouyakoub](https://github.com/bkader)
 
-![GUI Screenshot](screenshot.png "GUI Screenshot")
+![GUI Screenshot](screenshot.jpg "GUI Screenshot")
 
 ## What Features Does It Offer?
 
