@@ -1,0 +1,6 @@
+_dev
+Makefile
+*.zip
+*.sublime-project
+*.sublime-workspace
+Skada/Skada_Bak.lua

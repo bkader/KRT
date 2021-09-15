@@ -1,0 +1,2310 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+
+	<GameTooltip name="KRT_TOOLTIP_GUI" inherits="GameTooltipTemplate" font="GameFontNormalSmall" parent="UIParent" hidden="false">
+		<Scripts><OnHide>self:SetOwner(UIParent, "ANCHOR_NONE")</OnHide></Scripts>
+	</GameTooltip>
+
+	<!-- ====== Start of Minimap Button ====== -->
+	<Button name="KRT_MINIMAP_GUI" parent="Minimap" movable="true" userPlaced="true" frameStrata="MEDIUM" hidden="false">
+		<Size><AbsDimension x="33" y="33" /></Size>
+		<Anchors>
+			<Anchor point="CENTER">
+				<Offset><AbsDimension x="-65.35" y="-38.8" /></Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentIcon" file="Interface\Buttons\UI-GroupLoot-Dice-Up">
+					<Size><AbsDimension x="24" y="24" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="7.5" y="-4" /></Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture file="Interface\Minimap\MiniMap-TrackingBorder">
+					<Size><AbsDimension x="56" y="56" /></Size>
+					<Anchors><Anchor point="TOPLEFT" /></Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<HighlightTexture file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight" alphaMode="ADD" />
+		<Scripts><OnLoad>KRT.Minimap:OnLoad(self)</OnLoad></Scripts>
+	</Button>
+	<!-- ====== End of Minimap Button ====== -->
+
+	<!-- ====== Start of Config Frame ====== -->
+	<!-- CheckButton Template -->
+	<CheckButton name="KRTConfigCheckButtonTemplate" inherits="InterfaceOptionsCheckButtonTemplate" virtual="true">
+		<Size><AbsDimension x="20" y="20" /></Size>
+		<Scripts><OnClick>KRT.Config:OnClick(self, button)</OnClick></Scripts>
+	</CheckButton>
+	<!-- FontString Template -->
+	<FontString name="KRTConfigFontStringTemplate" inherits="GameFontHighlightSmall" justifyH="LEFT" justifyV="TOP" virtual="true">
+		<Size><AbsDimension x="185" y="0" /></Size>
+	</FontString>
+	<!-- The Frame: Config -->
+	<Frame name="KRTConfig" inherits="KRTFrameTemplate">
+		<Size><AbsDimension x="230" y="425" /></Size>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parentsortAscendingStr" inherits="KRTConfigFontStringTemplate" text="Sort rolls ascending">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="35" y="-35" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentuseRaidWarningStr" inherits="KRTConfigFontStringTemplate" text="Use raid warnings">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentsortAscendingStr" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="0" y="-7.5" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentannounceOnWinStr" inherits="KRTConfigFontStringTemplate" text="Announce loot items winners">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentuseRaidWarningStr" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="0" y="-7.5" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentannounceOnHoldStr" inherits="KRTConfigFontStringTemplate" text="Announce items held for later roll">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentannounceOnWinStr" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="0" y="-7.5" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentannounceOnBankStr" inherits="KRTConfigFontStringTemplate" text="Announce reserved items (bank)">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentannounceOnHoldStr" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="0" y="-7.5" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentannounceOnDisenchantStr" inherits="KRTConfigFontStringTemplate" text="Announce items to be disenchanted">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentannounceOnBankStr" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="0" y="-7.5" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentlootWhispersStr" inherits="KRTConfigFontStringTemplate" text="Send whispers to loot holder, banker and disenchanter.">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentannounceOnDisenchantStr" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="0" y="-7.5" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentcountdownRollsBlockStr" inherits="KRTConfigFontStringTemplate" text="Ignore all rolls done after countdown">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentlootWhispersStr" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="0" y="-7.5" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentscreenReminderStr" inherits="KRTConfigFontStringTemplate" text="ScreenShot reminder before trading an item">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentcountdownRollsBlockStr" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="0" y="-7.5" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentignoreStacksStr" inherits="KRTConfigFontStringTemplate" text="Allow trading a stack of an item">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentscreenReminderStr" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="0" y="-7.5" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentshowTooltipsStr" inherits="KRTConfigFontStringTemplate" text="Show items tooltips">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentignoreStacksStr" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="0" y="-7.5" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentminimapButtonStr" inherits="KRTConfigFontStringTemplate" text="Show minimap button">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentshowTooltipsStr" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="0" y="-7.5" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentcountdownDurationStr" inherits="GameFontNormalSmall" text="Countdown Duration">
+					<Anchors><Anchor point="BOTTOM"><Offset><AbsDimension x="0" y="80" /></Offset></Anchor></Anchors>
+				</FontString>
+				<FontString name="$parentAboutStr" inherits="GameFontNormalSmall">
+					<Size><AbsDimension x="205" y="0" /></Size>
+					<Anchors><Anchor point="BOTTOM"><Offset><AbsDimension x="0" y="12.5" /></Offset></Anchor></Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton name="$parentsortAscending" inherits="KRTConfigCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parentsortAscendingStr" relativePoint="TOPLEFT">
+						<Offset><AbsDimension x="-2.5" y="5" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentuseRaidWarning" inherits="KRTConfigCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parentuseRaidWarningStr" relativePoint="TOPLEFT">
+						<Offset><AbsDimension x="-2.5" y="5" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentannounceOnWin" inherits="KRTConfigCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parentannounceOnWinStr" relativePoint="TOPLEFT">
+						<Offset><AbsDimension x="-2.5" y="5" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentannounceOnHold" inherits="KRTConfigCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parentannounceOnHoldStr" relativePoint="TOPLEFT">
+						<Offset><AbsDimension x="-2.5" y="5" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentannounceOnBank" inherits="KRTConfigCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parentannounceOnBankStr" relativePoint="TOPLEFT">
+						<Offset><AbsDimension x="-2.5" y="5" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentannounceOnDisenchant" inherits="KRTConfigCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parentannounceOnDisenchantStr" relativePoint="TOPLEFT">
+						<Offset><AbsDimension x="-2.5" y="5" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentlootWhispers" inherits="KRTConfigCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parentlootWhispersStr" relativePoint="TOPLEFT">
+						<Offset><AbsDimension x="-2.5" y="5" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentcountdownRollsBlock" inherits="KRTConfigCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parentcountdownRollsBlockStr" relativePoint="TOPLEFT">
+						<Offset><AbsDimension x="-2.5" y="5" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentscreenReminder" inherits="KRTConfigCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parentscreenReminderStr" relativePoint="TOPLEFT">
+						<Offset><AbsDimension x="-2.5" y="5" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentignoreStacks" inherits="KRTConfigCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parentignoreStacksStr" relativePoint="TOPLEFT">
+						<Offset><AbsDimension x="-2.5" y="5" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentshowTooltips" inherits="KRTConfigCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parentshowTooltipsStr" relativePoint="TOPLEFT">
+						<Offset><AbsDimension x="-2.5" y="5" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentminimapButton" inherits="KRTConfigCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parentminimapButtonStr" relativePoint="TOPLEFT">
+						<Offset><AbsDimension x="-2.5" y="5" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<Slider name="$parentcountdownDuration" inherits="OptionsSliderTemplate" minValue="5.0" maxValue="60.0" defaultValue="5.0" valueStep="5.0">
+				<Size><AbsDimension x="180" y="15" /></Size>
+				<Anchors><Anchor point="BOTTOM"><Offset><AbsDimension x="0" y="95" /></Offset></Anchor></Anchors>
+				<Scripts>
+					<OnLoad>
+						getglobal(self:GetName() .. "Low"):SetText("5")
+						getglobal(self:GetName() .. "High"):SetText("60")
+					</OnLoad>
+					<OnValueChanged>KRT.Config:OnClick(self)</OnValueChanged>
+				</Scripts>
+			</Slider>
+
+			<Button name="$parentDefaultsBtn" inherits="KRTButtonTemplate" text="Defaults">
+				<Size><AbsDimension x="105" y="25" /></Size>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="10" y="47.5" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentCloseBtn" inherits="KRTButtonTemplate" text="CLOSE">
+				<Size><AbsDimension x="105" y="25" /></Size>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="-10" y="47.5" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>self:GetParent():Hide()</OnClick></Scripts>
+			</Button>
+		</Frames>
+		<Scripts><OnLoad>KRT.Config:OnLoad(self)</OnLoad></Scripts>
+	</Frame>
+	<!-- ====== End of Config Frame ====== -->
+
+	<!-- ====== Start of LFM Spam Frame ====== -->
+	<!-- EditBox Template -->
+	<EditBox name="KRTSpammerEditBox" inherits="KRTEditBoxTemplate" virtual="true">
+		<FontString inherits="GameFontHighlightSmall" />
+		<Scripts>
+			<OnEnterPressed>KRT.Spammer:Save(self)</OnEnterPressed>
+			<OnEditFocusLost>KRT.Spammer:Save(self)</OnEditFocusLost>
+			<OnTextChanged>KRT.Spammer:Pause()</OnTextChanged>
+		</Scripts>
+	</EditBox>
+	<!-- CheckBox Template -->
+	<CheckButton name="KRTSpammerCheckButton" inherits="SendMailRadioButtonTemplate" virtual="true">
+		<Size><AbsDimension x="15" y="15" /></Size>
+		<Scripts><OnClick>KRT.Spammer:Save(self, button)</OnClick></Scripts>
+	</CheckButton>
+	<!-- The Frame: LFM Spam -->
+	<Frame name="KRTSpammer" inherits="KRTFrameTemplate">
+		<Size><AbsDimension x="260" y="365" /></Size>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parentNameStr" text="RAID" inherits="GameFontNormalSmall" justifyH="LEFT" justifyV="BOTTOM">
+					<Size><AbsDimension x="105" y="10" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="20" y="-35" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentDurationStr" text="AUCTION_DURATION" inherits="GameFontNormalSmall" justifyH="LEFT" justifyV="BOTTOM">
+					<Size><AbsDimension x="85" y="10" /></Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT">
+							<Offset><AbsDimension x="-55" y="-35" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentTick" text="0" inherits="KRTFontStringGray" justifyH="RIGHT" justifyV="BOTTOM">
+					<Size><AbsDimension x="30" y="10" /></Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT">
+							<Offset><AbsDimension x="-15" y="-35" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentCompStr" text="Raid Composition" inherits="GameFontNormalSmall" justifyH="CENTER" justifyV="BOTTOM">
+					<Size><AbsDimension x="105" y="10" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="20" y="-90" /></Offset>
+						</Anchor>
+						<Anchor point="TOPRIGHT">
+							<Offset><AbsDimension x="-15" y="-90" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentNeedStr" text="NEED" inherits="KRTFontStringGray" justifyH="CENTER" justifyV="BOTTOM">
+					<Size><AbsDimension x="105" y="10" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="85" y="-110" /></Offset>
+						</Anchor>
+						<Anchor point="TOPRIGHT">
+							<Offset><AbsDimension x="-140" y="-105" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentClassStr" text="CLASS" inherits="KRTFontStringGray" justifyH="LEFT" justifyV="BOTTOM">
+					<Size><AbsDimension x="105" y="10" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="130" y="-110" /></Offset>
+						</Anchor>
+						<Anchor point="TOPRIGHT">
+							<Offset><AbsDimension x="0" y="-105" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentTanksStr" text="TANK" inherits="GameFontNormalSmall" justifyH="RIGHT" justifyV="BOTTOM">
+					<Size><AbsDimension x="55" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="20" y="-122" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentHealersStr" text="HEALER" inherits="GameFontNormalSmall" justifyH="RIGHT" justifyV="BOTTOM">
+					<Size><AbsDimension x="55" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentTanksStr" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="0" y="-10" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentMeleesStr" text="MELEE" inherits="GameFontNormalSmall" justifyH="RIGHT" justifyV="BOTTOM">
+					<Size><AbsDimension x="55" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentHealersStr" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="0" y="-10" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentRangedStr" text="RANGED" inherits="GameFontNormalSmall" justifyH="RIGHT" justifyV="BOTTOM">
+					<Size><AbsDimension x="55" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentMeleesStr" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="0" y="-10" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentMessageStr" inherits="GameFontNormalSmall" text="Message" justifyH="RIGHT" justifyV="BOTTOM">
+					<Size><AbsDimension x="55" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentRangedStr" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="0" y="-10" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentChannelsStr" inherits="GameFontNormalSmall" text="CHANNELS" justifyH="LEFT" justifyV="BOTTOM">
+					<Size><AbsDimension x="45" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentMessageStr" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="-5" y="-10" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentChannel1Str" inherits="GameFontHighlightSmall" text="1" justifyH="LEFT" justifyV="BOTTOM">
+					<Size><AbsDimension x="10" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentChannelsStr" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="20" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentChannel2Str" inherits="GameFontHighlightSmall" text="2" justifyH="LEFT" justifyV="BOTTOM">
+					<Size><AbsDimension x="10" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentChannel1Str" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="17" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentChannel3Str" inherits="GameFontHighlightSmall" text="3" justifyH="LEFT" justifyV="BOTTOM">
+					<Size><AbsDimension x="10" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentChannel2Str" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="17" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentChannel4Str" inherits="GameFontHighlightSmall" text="4" justifyH="LEFT" justifyV="BOTTOM">
+					<Size><AbsDimension x="10" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentChannel3Str" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="17" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentChannel5Str" inherits="GameFontHighlightSmall" text="5" justifyH="LEFT" justifyV="BOTTOM">
+					<Size><AbsDimension x="10" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentChannel4Str" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="17" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentChannelGuildStr" inherits="GameFontHighlightSmall" text="GUILD " justifyH="LEFT" justifyV="BOTTOM">
+					<Size><AbsDimension x="35" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentChannel5Str" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="17" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentPreviewStr" inherits="GameFontNormal" text="Preview" justifyH="LEFT" justifyV="BOTTOM">
+					<Size><AbsDimension x="55" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" >
+							<Offset><AbsDimension x="20" y="-285" /></Offset>
+						</Anchor>
+						<Anchor point="TOPRIGHT" >
+							<Offset><AbsDimension x="-15" y="-285" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentOutput" inherits="GameFontHighlightSmall" text="Start typing to see the final message." justifyH="LEFT" justifyV="TOP">
+					<Size><AbsDimension x="218" y="0" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="20" y="-310" /></Offset>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset><AbsDimension x="-15" y="15" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentLength" inherits="KRTFontStringGray" text="0/255" justifyH="RIGHT" justifyV="TOP">
+					<Size><AbsDimension x="55" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT" >
+							<Offset><AbsDimension x="-15" y="-295" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="$parentClearBtn" inherits="KRTButtonTemplate" text="Clear">
+				<Size><AbsDimension x="65" y="19" /></Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset><AbsDimension x="-27" y="-5" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Spammer:Clear()</OnClick></Scripts>
+			</Button>
+			<EditBox name="$parentName" inherits="KRTSpammerEditBox" letters="15">
+				<Size><AbsDimension x="75" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="25" y="-55" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnTabPressed>KRT.Spammer:Tab("Duration", "Message")</OnTabPressed>
+				</Scripts>
+			</EditBox>
+			<Button name="$parentStartBtn" inherits="KRTButtonTemplate" text="Start">
+				<Size><AbsDimension x="75" y="26" /></Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset><AbsDimension x="-15" y="-50" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<EditBox name="$parentDuration" inherits="KRTSpammerEditBox" letters="3" numeric="true">
+				<Size><AbsDimension x="30" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parentStartBtn" relativePoint="TOPLEFT">
+						<Offset><AbsDimension x="-15" y="-5" /></Offset>
+					</Anchor>
+				</Anchors>
+				<FontString inherits="GameFontHighlightSmall" justifyH="CENTER" />
+				<Scripts><OnTabPressed>KRT.Spammer:Tab("Tank", "Name")</OnTabPressed>
+				</Scripts>
+			</EditBox>
+			<EditBox name="$parentTank" inherits="KRTSpammerEditBox" letters="1" numeric="true">
+				<Size><AbsDimension x="25" y="13" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="90" y="-130" /></Offset>
+					</Anchor>
+				</Anchors>
+				<FontString justifyH="CENTER" />
+				<Scripts><OnTabPressed>KRT.Spammer:Tab("TankClass", "Duration")</OnTabPressed>
+				</Scripts>
+			</EditBox>
+			<EditBox name="$parentTankClass" inherits="KRTSpammerEditBox">
+				<Size><AbsDimension x="100" y="13" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentTank" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="20" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnTabPressed>KRT.Spammer:Tab("Healer", "Tank")</OnTabPressed>
+				</Scripts>
+			</EditBox>
+			<EditBox name="$parentHealer" inherits="KRTSpammerEditBox" letters="1" numeric="true">
+				<Size><AbsDimension x="25" y="13" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentTank" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-15" /></Offset>
+					</Anchor>
+				</Anchors>
+				<FontString justifyH="CENTER" />
+				<Scripts><OnTabPressed>KRT.Spammer:Tab("HealerClass", "TankClass")</OnTabPressed>
+				</Scripts>
+			</EditBox>
+			<EditBox name="$parentHealerClass" inherits="KRTSpammerEditBox">
+				<Size><AbsDimension x="100" y="13" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentHealer" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="20" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnTabPressed>KRT.Spammer:Tab("Melee", "Healer")</OnTabPressed>
+				</Scripts>
+			</EditBox>
+			<EditBox name="$parentMelee" inherits="KRTSpammerEditBox" letters="2" numeric="true">
+				<Size><AbsDimension x="25" y="13" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentHealer" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-15" /></Offset>
+					</Anchor>
+				</Anchors>
+				<FontString justifyH="CENTER" />
+				<Scripts><OnTabPressed>KRT.Spammer:Tab("MeleeClass", "HealerClass")</OnTabPressed>
+				</Scripts>
+			</EditBox>
+			<EditBox name="$parentMeleeClass" inherits="KRTSpammerEditBox">
+				<Size><AbsDimension x="100" y="13" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentMelee" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="20" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnTabPressed>KRT.Spammer:Tab("Ranged", "Melee")</OnTabPressed>
+				</Scripts>
+			</EditBox>
+			<EditBox name="$parentRanged" inherits="KRTSpammerEditBox" letters="2" numeric="true">
+				<Size><AbsDimension x="25" y="13" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentMelee" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-15" /></Offset>
+					</Anchor>
+				</Anchors>
+				<FontString justifyH="CENTER" />
+				<Scripts><OnTabPressed>KRT.Spammer:Tab("RangedClass", "MeleeClass")</OnTabPressed>
+				</Scripts>
+			</EditBox>
+			<EditBox name="$parentRangedClass" inherits="KRTSpammerEditBox">
+				<Size><AbsDimension x="100" y="13" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRanged" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="20" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnTabPressed>KRT.Spammer:Tab("Message", "Ranged")</OnTabPressed>
+				</Scripts>
+			</EditBox>
+			<EditBox name="$parentMessage" inherits="KRTSpammerEditBox">
+				<Size><AbsDimension x="100" y="13" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRanged" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-15" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRangedClass" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-15" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnTabPressed>KRT.Spammer:Tab("Name", "RangedClass")</OnTabPressed>
+				</Scripts>
+			</EditBox>
+			<CheckButton name="$parentChat1" inherits="KRTSpammerCheckButton">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentMessage" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="-25" y="-13" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentChat2" inherits="KRTSpammerCheckButton">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentChat1" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="12" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentChat3" inherits="KRTSpammerCheckButton">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentChat2" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="12" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentChat4" inherits="KRTSpammerCheckButton">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentChat3" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="12" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentChat5" inherits="KRTSpammerCheckButton">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentChat4" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="12" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentChatGuild" inherits="KRTSpammerCheckButton">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentChat5" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="12" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+		</Frames>
+		<Scripts><OnLoad>KRT.Spammer:OnLoad(self)</OnLoad></Scripts>
+	</Frame>
+	<!-- ====== End of LFM Spam Frame ====== -->
+
+	<!-- ====== Start of Warnings ====== -->
+	<!-- Raid Warning Button -->
+	<Button name="KRTWarningButtonTemplate" virtual="true">
+		<Size><AbsDimension y="20" /></Size>
+		<NormalFont style="GameFontNormalSmall" />
+		<DisabledFont style="GameFontDisableSmall" />
+		<HighlightFont style="GameFontHighlightSmall" />
+		<Anchors>
+			<Anchor point="LEFT">
+				<Offset><AbsDimension x="5" y="0" /></Offset>
+			</Anchor>
+			<Anchor point="RIGHT">
+				<Offset><AbsDimension x="-5" y="0" /></Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture file="Interface\AuctionFrame\UI-AuctionItemNameFrame">
+					<Size><AbsDimension x="10" y="23" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="0" y="2" /></Offset>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset><AbsDimension x="0" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords top="0" right="0.75" bottom="1.0" left="0.078125" />
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<FontString name="$parentID" inherits="KRTFontStringGray" justifyH="RIGHT">
+					<Size><AbsDimension x="50" y="5" /></Size>
+					<Anchors>
+						<Anchor point="RIGHT">
+							<Offset><AbsDimension x="-8" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentName" inherits="GameFontNormalSmall" justifyH="LEFT" text="NAME">
+					<Size><AbsDimension x="265" y="10" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="5" y="-5" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<HighlightTexture>
+			<Anchors>
+				<Anchor point="TOPLEFT" />
+				<Anchor point="BOTTOMRIGHT" />
+			</Anchors>
+			<Color r="1" g="0.8" b="0" a="0.1" />
+		</HighlightTexture>
+		<Scripts>
+			<OnLoad>self:RegisterForClicks("LeftButtonUp")</OnLoad>
+			<OnClick>KRT.Warnings:Select(self, button)</OnClick>
+		</Scripts>
+	</Button>
+	<!-- The Frame: Raid Warnings -->
+	<Frame name="KRTWarnings" inherits="KRTFrameTemplate">
+		<Size><AbsDimension x="595" y="245" /></Size>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parentNameStr" inherits="GameFontNormal" justifyH="LEFT" justifyV="BOTTOM" text="NAME">
+					<Size><AbsDimension x="235" y="5" /></Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT">
+							<Offset><AbsDimension x="-15" y="-38" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentMessageStr" inherits="GameFontNormal" justifyH="LEFT" justifyV="BOTTOM" text="Message">
+					<Size><AbsDimension x="235" y="5" /></Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT">
+							<Offset><AbsDimension x="-15" y="-80" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentOutputName" inherits="GameFontNormal" justifyH="LEFT" justifyV="BOTTOM" text="Tips:">
+					<Size><AbsDimension x="235" y="5" /></Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT">
+							<Offset><AbsDimension x="-15" y="-160" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentOutputContent" inherits="KRTFontStringGray" justifyH="LEFT" justifyV="TOP">
+					<Size><AbsDimension x="235" y="5" /></Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT">
+							<Offset><AbsDimension x="-15" y="-170" /></Offset>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset><AbsDimension x="-15" y="15" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<ScrollFrame name="$parentScrollFrame" inherits="KRTScrolLFrameTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="15" y="-32" /></Offset>
+					</Anchor>
+					<Anchor point="BOTTOMRIGHT">
+						<Offset><AbsDimension x="-280" y="12" /></Offset>
+					</Anchor>
+				</Anchors>
+			</ScrollFrame>
+			<EditBox name="$parentName" inherits="KRTEditBoxTemplate" letters="50">
+				<Size><AbsDimension x="225" y="20" /></Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset><AbsDimension x="-20" y="-48" /></Offset>
+					</Anchor>
+				</Anchors>
+				<FontString inherits="GameFontHighlight" />
+				<Scripts><OnTabPressed>_G[self:GetParent():GetName().."Content"]:SetFocus()</OnTabPressed></Scripts>
+			</EditBox>
+			<EditBox name="$parentContent" inherits="KRTEditBoxTemplate" letters="255">
+				<Size><AbsDimension x="225" y="20" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentName" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-20" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnTabPressed>_G[self:GetParent():GetName().."Name"]:SetFocus()</OnTabPressed></Scripts>
+			</EditBox>
+			<Button name="$parentEditBtn" inherits="KRTButtonTemplate" text="Save">
+				<Size><AbsDimension x="65" y="25" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentContent" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="-5" y="-8" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Warnings:Edit(self, button)</OnClick></Scripts>
+			</Button>
+			<Button name="$parentDeleteBtn" inherits="KRTButtonTemplate" text="DELETE">
+				<Size><AbsDimension x="65" y="25" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentEditBtn" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="0" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Warnings:Delete(self, button)</OnClick></Scripts>
+			</Button>
+			<Button name="$parentAnnounceBtn" inherits="KRTButtonTemplate" text="Announce">
+				<Size><AbsDimension x="85" y="25" /></Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parentContent" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="5" y="-8" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Warnings:Announce()</OnClick></Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>KRT.Warnings:OnLoad(self)</OnLoad>
+			<OnShow>KRT.Warnings:Cancel()</OnShow>
+			<OnHide>KRT.Warnings:Cancel()</OnHide>
+		</Scripts>
+	</Frame>
+	<!-- ====== End of Warnings ====== -->
+
+	<!-- ====== Start of Master Loot Frame ====== -->
+	<!-- Item Selection Frame -->
+	<Frame name="KRTItemSelectionFrame" toplevel="true" hidden="true" frameStrata="FULLSCREEN" virtual="true">
+		<Size><AbsDimension x="225" y="100" /></Size>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" tile="true">
+			<TileSize><AbsValue val="6" /></TileSize>
+			<EdgeSize><AbsValue val="6" /></EdgeSize>
+			<BackgroundInsets>
+				<AbsInset top="3" right="3" bottom="2" left="2" />
+			</BackgroundInsets>
+		</Backdrop>
+	</Frame>
+	<!-- Item Selection Button -->
+	<Button name="KRTItemSelectionButton" hidden="true" virtual="true">
+		<Size><AbsDimension y="30" /></Size>
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset><AbsDimension x="5" y="-5" /></Offset>
+			</Anchor>
+			<Anchor point="RIGHT">
+				<Offset><AbsDimension x="-5" y="5" /></Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts><OnClick>KRT.Master:BtnSelectedItem(self, button)</OnClick></Scripts>
+		<Layers>
+			<Layer level="OVERLAY" textureSubLevel="1">
+				<Texture name="$parentIcon" file="">
+					<Size><AbsDimension x="30" y="30" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+							<Offset><AbsDimension x="7" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<FontString name="$parentName" inherits="GameFontNormalSmall" justifyH="LEFT" justifyV="MIDDLE" text="No item selected">
+					<Size><AbsDimension x="140" y="32" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentIcon" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="10" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+					<!-- <Color r="0.5" g="0.5" b="0.5" a="1" /> -->
+				</FontString>
+			</Layer>
+		</Layers>
+		<HighlightTexture>
+			<Anchors>
+				<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+					<Offset><AbsDimension x="3" y="0" /></Offset>
+				</Anchor>
+				<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT">
+					<Offset><AbsDimension x="3" y="0" /></Offset>
+				</Anchor>
+			</Anchors>
+			<Color r="1" g="0.8" b="0" a="0.1" />
+		</HighlightTexture>
+	</Button>
+	<!-- The Frame: Loot Manager -->
+	<Frame name="KRTMaster" inherits="KRTFrameTemplate">
+		<Size><AbsDimension x="230" y="420" /></Size>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parentName" inherits="KRTFontStringGray" text="No item selected" justifyH="LEFT" justifyV="MIDDLE">
+					<Size><AbsDimension x="140" y="32" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="50" y="-60" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentRollsHeaderPlayer" inherits="KRTFontStringGray" text="PLAYER">
+					<Size><AbsDimension x="80" y="5" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="20" y="-130" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentRollsHeaderRoll" inherits="KRTFontStringGray" justifyH="RIGHT" text="Roll">
+					<Size><AbsDimension x="80" y="5" /></Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT">
+							<Offset><AbsDimension x="-40" y="-130" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="$parentConfigBtn" inherits="KRTButtonTemplate" text="Configure">
+				<Size><AbsDimension x="70" y="19" /></Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset><AbsDimension x="-26" y="-5" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Config:Toggle()</OnClick></Scripts>
+			</Button>
+			<Button name="$parentSelectItemBtn" inherits="KRTButtonTemplate" text="Select Item">
+				<Size><AbsDimension x="105" y="25" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="10" y="-30" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Master:BtnSelectItem(self, button)</OnClick></Scripts>
+			</Button>
+			<Button name="$parentSpamLootBtn" inherits="KRTButtonTemplate" text="Spam Loot">
+				<Size><AbsDimension x="105" y="25" /></Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset><AbsDimension x="-10" y="-30" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Master:BtnSpamLoot(self, button)</OnClick></Scripts>
+			</Button>
+			<Button name="$parentItemBtn" inherits="KRTItemButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentSelectItemBtn" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="5" y="-5" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<EditBox name="$parentItemCount" inherits="KRTEditBoxTemplate" numeric="true" letters="2" hidden="true">
+				<Size><AbsDimension x="20" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset><AbsDimension x="-12" y="-65" /></Offset>
+					</Anchor>
+				</Anchors>
+				<FontString inherits="GameFontHighlightSmall" justifyH="LEFT" />
+				<Scripts><OnEnterPressed>self:ClearFocus()</OnEnterPressed></Scripts>
+			</EditBox>
+			<Button name="$parentMSBtn" inherits="KRTButtonTemplate" text="MS">
+				<Size><AbsDimension x="30" y="25" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentItemBtn" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="-3" y="-5" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Master:BtnMS(self, button)</OnClick></Scripts>
+			</Button>
+			<Button name="$parentOSBtn" inherits="KRTButtonTemplate" text="OS">
+				<Size><AbsDimension x="30" y="25" /></Size>
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentMSBtn" relativePoint="RIGHT">
+						<Offset><AbsDimension x="5" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Master:BtnOS(self, button)</OnClick></Scripts>
+			</Button>
+			<Button name="$parentFreeBtn" inherits="KRTButtonTemplate" text="Free">
+				<Size><AbsDimension x="50" y="25" /></Size>
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentOSBtn" relativePoint="RIGHT">
+						<Offset><AbsDimension x="5" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Master:BtnFree(self, button)</OnClick></Scripts>
+			</Button>
+			<Button name="$parentCountdownBtn" inherits="KRTButtonTemplate" text="Countdown">
+				<Size><AbsDimension x="85" y="25" /></Size>
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentFreeBtn" relativePoint="RIGHT">
+						<Offset><AbsDimension x="5" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Master:BtnCountdown(self, button)</OnClick></Scripts>
+			</Button>
+			<ScrollFrame name="$parentScrollFrame" inherits="KRTScrolLFrameTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="15" y="-145" /></Offset>
+					</Anchor>
+					<Anchor point="BOTTOMRIGHT">
+						<Offset><AbsDimension x="-35" y="135" /></Offset>
+					</Anchor>
+				</Anchors>
+			</ScrollFrame>
+			<Button name="$parentAwardBtn" inherits="KRTButtonTemplate" text="Award">
+				<Size><AbsDimension x="75" y="25" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentScrollFrame" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="-5" y="-7.5" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Master:BtnAward(self, button)</OnClick></Scripts>
+			</Button>
+			<Button name="$parentRollBtn" inherits="KRTButtonTemplate" text="Roll">
+				<Size><AbsDimension x="55" y="25" /></Size>
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentAwardBtn" relativePoint="RIGHT">
+						<Offset><AbsDimension x="5" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT:Roll(self, button)</OnClick></Scripts>
+			</Button>
+			<Button name="$parentClearBtn" inherits="KRTButtonTemplate" text="Clear">
+				<Size><AbsDimension x="68" y="25" /></Size>
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentRollBtn" relativePoint="RIGHT">
+						<Offset><AbsDimension x="5" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Master:BtnClear(self, button)</OnClick></Scripts>
+			</Button>
+			<Button name="$parentHoldBtn" inherits="KRTButtonTemplate" text="Hold">
+				<Size><AbsDimension x="75" y="25" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentAwardBtn" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-5" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Master:BtnHold(self, button)</OnClick></Scripts>
+			</Button>
+			<Frame name="$parentHoldDropDown" inherits="UIDropDownMenuTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentHoldBtn" relativePoint="RIGHT">
+						<Offset><AbsDimension x="-15" y="-1" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Button name="$parentBankBtn" inherits="KRTButtonTemplate" text="Bank">
+				<Size><AbsDimension x="75" y="25" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentHoldBtn" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-5" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Master:BtnBank(self, button)</OnClick></Scripts>
+			</Button>
+			<Frame name="$parentBankDropDown" inherits="UIDropDownMenuTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentBankBtn" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="-15" y="2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Button name="$parentDisenchantBtn" inherits="KRTButtonTemplate" text="DE">
+				<Size><AbsDimension x="75" y="25" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentBankBtn" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-5" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Master:BtnDisenchant(self, button)</OnClick></Scripts>
+			</Button>
+			<Frame name="$parentDisenchantDropDown" inherits="UIDropDownMenuTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentDisenchantBtn" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="-15" y="2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+		</Frames>
+		<Scripts><OnLoad>KRT.Master:OnLoad(self)</OnLoad></Scripts>
+	</Frame>
+	<!-- ====== End of Master Loot Frame ====== -->
+
+	<!-- ====== Start of Changes ====== -->
+	<!-- Player Button -->
+	<Button name="KRTChangesButtonTemplate" virtual="true">
+		<Size><AbsDimension y="20" /></Size>
+		<Anchors>
+			<Anchor point="LEFT">
+				<Offset><AbsDimension x="5" y="0" /></Offset>
+			</Anchor>
+			<Anchor point="RIGHT">
+				<Offset><AbsDimension x="-5" y="0" /></Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture file="Interface\AuctionFrame\UI-AuctionItemNameFrame">
+					<Size><AbsDimension x="10" y="22" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="0" y="0" /></Offset>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset><AbsDimension x="0" y="2" /></Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords top="0" right="0.75" bottom="1.0" left="0.078125" />
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<FontString name="$parentName" inherits="GameFontHighlightSmall" justifyH="LEFT" text="PLAYER">
+					<Size><AbsDimension x="95" y="5" /></Size>
+					<Anchors>
+						<Anchor point="LEFT">
+							<Offset><AbsDimension x="5" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentSpec" inherits="GameFontHighlightSmall" justifyH="LEFT" text="None">
+					<Size><AbsDimension x="95" y="5" /></Size>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentName" relativePoint="RIGHT">
+							<Offset><AbsDimension x="5" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<HighlightTexture>
+			<Anchors>
+				<Anchor point="TOPLEFT" relativePoint="TOPLEFT" />
+				<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" />
+			</Anchors>
+			<Color r="1" g="0.8" b="0" a="0.1" />
+		</HighlightTexture>
+		<Scripts>
+			<OnClick>KRT.Changes:Select(self, button)</OnClick>
+			<OnDoubleClick>KRT.Changes:Edit(self)</OnDoubleClick>
+		</Scripts>
+	</Button>
+	<!-- The Frame: Changes -->
+	<Frame name="KRTChanges" inherits="KRTFrameTemplate">
+		<Size><AbsDimension x="248" y="205" /></Size>
+		<Frames>
+			<Button name="$parentClearBtn" inherits="KRTButtonTemplate" text="Clear">
+				<Size><AbsDimension x="65" y="19" /></Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset><AbsDimension x="-27" y="-5" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Changes:Clear()</OnClick></Scripts>
+			</Button>
+			<EditBox name="$parentName" inherits="KRTEditBoxTemplate" letters="20" hidden="true">
+				<Size><AbsDimension x="65" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="20" y="-35" /></Offset>
+					</Anchor>
+				</Anchors>
+				<FontString inherits="GameFontHighlightSmall" />
+				<Scripts><OnTabPressed>_G[self:GetParent():GetName().."Spec"]:SetFocus()</OnTabPressed></Scripts>
+			</EditBox>
+			<EditBox name="$parentSpec" inherits="KRTEditBoxTemplate" letters="20" hidden="true">
+				<Size><AbsDimension x="65" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentName" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="15" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+				<FontString inherits="GameFontHighlightSmall" />
+				<Scripts><OnTabPressed>_G[self:GetParent():GetName().."Name"]:SetFocus()</OnTabPressed></Scripts>
+			</EditBox>
+			<Button name="$parentEditBtn" inherits="KRTButtonTemplate" text="Edit">
+				<Size><AbsDimension x="65" y="25" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentSpec" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="8" y="4" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Changes:Edit(self, button)</OnClick></Scripts>
+			</Button>
+			<Button name="$parentAddBtn" inherits="KRTButtonTemplate" text="ADD">
+				<Size><AbsDimension x="65" y="25" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="12" y="-32" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Changes:Add(self, button)</OnClick></Scripts>
+			</Button>
+			<Button name="$parentDemandBtn" inherits="KRTButtonTemplate" text="Demand">
+				<Size><AbsDimension x="105" y="25" /></Size>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT">
+						<Offset><AbsDimension x="12" y="12" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Changes:Demand()</OnClick></Scripts>
+			</Button>
+			<Button name="$parentAnnounceBtn" inherits="KRTButtonTemplate" text="Announce">
+				<Size><AbsDimension x="105" y="25" /></Size>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT">
+						<Offset><AbsDimension x="-12" y="12" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Changes:Announce()</OnClick></Scripts>
+			</Button>
+			<ScrollFrame name="$parentScrollFrame" inherits="KRTScrolLFrameTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="15" y="-67" /></Offset>
+					</Anchor>
+					<Anchor point="BOTTOMRIGHT">
+						<Offset><AbsDimension x="-32" y="46" /></Offset>
+					</Anchor>
+				</Anchors>
+			</ScrollFrame>
+		</Frames>
+		<Scripts><OnLoad>KRT.Changes:OnLoad(self)</OnLoad></Scripts>
+	</Frame>
+	<!-- ====== End of Changes ====== -->
+
+	<!-- ====== Start of Loot Bans Frame ====== -->
+	<!-- ====== End of Loot Bans Frame ====== -->
+
+	<Frame name="KRTLoggerFrameTemplate" parent="KRTLogger" virtual="true">
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" tile="true">
+			<TileSize val="16"/>
+			<BackgroundInsets left="3" right="3" top="45" bottom="30"/>
+		</Backdrop>
+	</Frame>
+	<!-- Table header template -->
+	<Button name="KRTLoggerTableHeader" virtual="true">
+		<Size><AbsDimension x="10" y="19" /></Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeft" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Size><AbsDimension x="5" y="19" /></Size>
+					<Anchors><Anchor point="TOPLEFT"/></Anchors>
+					<TexCoords left="0" right="0.078125" top="0" bottom="0.59375"/>
+				</Texture>
+				<Texture name="$parentRight" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Size><AbsDimension x="4" y="19" /></Size>
+					<Anchors><Anchor point="TOPRIGHT" /></Anchors>
+					<TexCoords left="0.90625" right="0.96875" top="0" bottom="0.59375"/>
+				</Texture>
+				<Texture name="$parentMiddle" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Size><AbsDimension x="10" y="19" /></Size>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT"/>
+						<Anchor point="RIGHT" relativeTo="$parentRight" relativePoint="LEFT"/>
+					</Anchors>
+					<TexCoords left="0.078125" right="0.90625" top="0" bottom="0.59375"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<ButtonText name="$parentText">
+			<Anchors>
+				<Anchor point="LEFT">
+					<Offset><AbsDimension x="8" y="0" /></Offset>
+				</Anchor>
+			</Anchors>
+		</ButtonText>
+		<NormalFont style="GameFontHighlightSmall"  />
+		<HighlightTexture file="Interface\PaperDollInfoFrame\UI-Character-Tab-Highlight" alphaMode="ADD">
+			<Size><AbsDimension x="5" y="24" /></Size>
+			<Anchors>
+				<Anchor point="LEFT">
+					<Offset><AbsDimension x="0" y="0" /></Offset>
+				</Anchor>
+				<Anchor point="RIGHT">
+					<Offset><AbsDimension x="4" y="0" /></Offset>
+				</Anchor>
+			</Anchors>
+		</HighlightTexture>
+	</Button>
+	<!-- Buttons Template -->
+	<Button name="KRTLoggerRaidButton" virtual="true">
+		<Size><AbsDimension y="20" /></Size>
+		<NormalFont style="GameFontNormalSmall" />
+		<DisabledFont style="GameFontDisableSmall" />
+		<HighlightFont style="GameFontHighlightSmall" />
+		<Anchors>
+			<Anchor point="LEFT">
+				<Offset><AbsDimension x="5" y="0" /></Offset>
+			</Anchor>
+			<Anchor point="RIGHT">
+				<Offset><AbsDimension x="-5" y="0" /></Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture file="Interface\AuctionFrame\UI-AuctionItemNameFrame">
+					<Size><AbsDimension x="10" y="22" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="0" y="0" /></Offset>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset><AbsDimension x="0" y="-2" /></Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords top="0" right="0.75" bottom="0.75" left="0.078125" />
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<FontString name="$parentID" font="GameFontNormalSmall" justifyH="LEFT" justifyV="MIDDLE">
+					<Size><AbsDimension x="35" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="3" y="-1" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentDate" inherits="GameFontHighlightSmall" justifyH="LEFT" justifyV="MIDDLE" text="Date">
+					<Size><AbsDimension x="95" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentID" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="6" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentZone" inherits="GameFontHighlightSmall" justifyH="LEFT" justifyV="MIDDLE" text="ZONE">
+					<Size><AbsDimension x="120" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentDate" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="6" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentSize" inherits="GameFontHighlightSmall" justifyH="LEFT" justifyV="MIDDLE" text="Size">
+					<Size><AbsDimension x="36" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentZone" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="6" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<HighlightTexture>
+			<Anchors>
+				<Anchor point="TOPLEFT" />
+				<Anchor point="BOTTOMRIGHT" />
+			</Anchors>
+			<Color r="1" g="0.8" b="0" a="0.1" />
+		</HighlightTexture>
+		<Scripts><OnClick>KRT.Logger:SelectRaid(self, button)</OnClick></Scripts>
+	</Button>
+	<Button name="KRTLoggerBossButton" virtual="true">
+		<Size><AbsDimension y="20" /></Size>
+		<NormalFont style="GameFontNormalSmall" />
+		<DisabledFont style="GameFontDisableSmall" />
+		<HighlightFont style="GameFontHighlightSmall" />
+		<Anchors>
+			<Anchor point="LEFT">
+				<Offset><AbsDimension x="5" y="0" /></Offset>
+			</Anchor>
+			<Anchor point="RIGHT">
+				<Offset><AbsDimension x="-5" y="0" /></Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture file="Interface\AuctionFrame\UI-AuctionItemNameFrame">
+					<Size><AbsDimension x="10" y="22" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="0" y="0" /></Offset>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset><AbsDimension x="0" y="-2" /></Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords top="0" right="0.75" bottom="0.75" left="0.078125" />
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<FontString name="$parentID" font="GameFontNormalSmall" justifyH="LEFT" justifyV="MIDDLE">
+					<Size><AbsDimension x="30" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="3" y="-1" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentName" inherits="GameFontHighlightSmall" justifyH="LEFT" justifyV="MIDDLE" text="NAME">
+					<Size><AbsDimension x="142" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentID" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="6" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentTime" inherits="GameFontHighlightSmall" justifyH="LEFT" justifyV="MIDDLE" text="Time">
+					<Size><AbsDimension x="40" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentName" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="6" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentMode" inherits="GameFontHighlightSmall" justifyH="LEFT" justifyV="MIDDLE" text="MODE">
+					<Size><AbsDimension x="55" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentTime" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="6" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<HighlightTexture>
+			<Anchors>
+				<Anchor point="TOPLEFT" />
+				<Anchor point="BOTTOMRIGHT" />
+			</Anchors>
+			<Color r="1" g="0.8" b="0" a="0.1" />
+		</HighlightTexture>
+		<Scripts><OnClick>KRT.Logger:SelectBoss(self, button)</OnClick></Scripts>
+	</Button>
+	<Button name="KRTLoggerBossAttendeeButton" virtual="true">
+		<Size><AbsDimension y="20" /></Size>
+		<NormalFont style="GameFontNormalSmall" />
+		<DisabledFont style="GameFontDisableSmall" />
+		<HighlightFont style="GameFontHighlightSmall" />
+		<Anchors>
+			<Anchor point="LEFT">
+				<Offset><AbsDimension x="5" y="0" /></Offset>
+			</Anchor>
+			<Anchor point="RIGHT">
+				<Offset><AbsDimension x="-5" y="0" /></Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture file="Interface\AuctionFrame\UI-AuctionItemNameFrame">
+					<Size><AbsDimension x="10" y="22" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="0" y="0" /></Offset>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset><AbsDimension x="0" y="-2" /></Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords top="0" right="0.75" bottom="0.75" left="0.078125" />
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<FontString name="$parentName" font="GameFontNormalSmall" justifyH="LEFT" justifyV="MIDDLE" text="NAME">
+					<Size><AbsDimension x="80" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="3" y="-1" /></Offset>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<HighlightTexture>
+			<Anchors>
+				<Anchor point="TOPLEFT" />
+				<Anchor point="BOTTOMRIGHT" />
+			</Anchors>
+			<Color r="1" g="0.8" b="0" a="0.1" />
+		</HighlightTexture>
+		<Scripts><OnClick>KRT.Logger:SelectBossPlayer(self, button)</OnClick></Scripts>
+	</Button>
+	<Button name="KRTLoggerRaidAttendeeButton" virtual="true">
+		<Size><AbsDimension y="20" /></Size>
+		<NormalFont style="GameFontNormalSmall" />
+		<DisabledFont style="GameFontDisableSmall" />
+		<HighlightFont style="GameFontHighlightSmall" />
+		<Anchors>
+			<Anchor point="LEFT">
+				<Offset><AbsDimension x="5" y="0" /></Offset>
+			</Anchor>
+			<Anchor point="RIGHT">
+				<Offset><AbsDimension x="-5" y="0" /></Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture file="Interface\AuctionFrame\UI-AuctionItemNameFrame">
+					<Size><AbsDimension x="10" y="22" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="0" y="0" /></Offset>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset><AbsDimension x="0" y="-2" /></Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords top="0" right="0.75" bottom="0.75" left="0.078125" />
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<FontString name="$parentName" font="GameFontNormalSmall" justifyH="LEFT" justifyV="MIDDLE" text="NAME">
+					<Size><AbsDimension x="80" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="3" y="-1" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentJoin" inherits="GameFontHighlightSmall" justifyH="CENTER" justifyV="MIDDLE" text="Join">
+					<Size><AbsDimension x="50" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentName" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="6" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentLeave" inherits="GameFontHighlightSmall" justifyH="CENTER" justifyV="MIDDLE">
+					<Size><AbsDimension x="50" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentJoin" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="6" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<HighlightTexture>
+			<Anchors>
+				<Anchor point="TOPLEFT" />
+				<Anchor point="BOTTOMRIGHT" />
+			</Anchors>
+			<Color r="1" g="0.8" b="0" a="0.1" />
+		</HighlightTexture>
+		<Scripts><OnClick>KRT.Logger:SelectPlayer(self, button)</OnClick></Scripts>
+	</Button>
+	<Button name="KRTLoggerLootButton" virtual="true">
+		<Size><AbsDimension y="26" /></Size>
+		<NormalFont style="GameFontNormalSmall" />
+		<DisabledFont style="GameFontDisableSmall" />
+		<HighlightFont style="GameFontHighlightSmall" />
+		<Anchors>
+			<Anchor point="LEFT">
+				<Offset><AbsDimension x="5" y="0" /></Offset>
+			</Anchor>
+			<Anchor point="RIGHT">
+				<Offset><AbsDimension x="-5" y="0" /></Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture file="Interface\AuctionFrame\UI-AuctionItemNameFrame">
+					<Size><AbsDimension x="10" y="28" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="0" y="0" /></Offset>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset><AbsDimension x="0" y="-2" /></Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords top="0" right="0.75" bottom="0.75" left="0.078125" />
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<FontString name="$parentName" font="GameFontNormalSmall" justifyH="LEFT" justifyV="MIDDLE">
+					<Size><AbsDimension x="162" y="10" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="30" y="-9" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentSource" inherits="GameFontHighlightSmall" justifyH="LEFT" justifyV="MIDDLE">
+					<Size><AbsDimension x="125" y="10" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentName" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="6" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentWinner" inherits="GameFontHighlightSmall" justifyH="LEFT" justifyV="MIDDLE">
+					<Size><AbsDimension x="85" y="10" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentSource" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="6" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentType" inherits="GameFontHighlightSmall" justifyH="LEFT" justifyV="MIDDLE">
+					<Size><AbsDimension x="45" y="10" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentWinner" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="6" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentRoll" inherits="GameFontHighlightSmall" justifyH="RIGHT" justifyV="MIDDLE">
+					<Size><AbsDimension x="37" y="10" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentType" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="6" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentTime" inherits="GameFontHighlightSmall" justifyH="CENTER" justifyV="MIDDLE">
+					<Size><AbsDimension x="35" y="10" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentRoll" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="6" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="$parentItem">
+				<Size><AbsDimension x="20" y="20" /></Size>
+				<Anchors><Anchor point="TOPLEFT"><Offset><AbsDimension x="3" y="-4" /></Offset></Anchor></Anchors>
+				<Layers><Layer level="BORDER"><Texture name="$parentIconTexture" /></Layer></Layers>
+				<NormalTexture name="$parentNormalTexture" file="Interface\Buttons\UI-Quickslot2">
+					<Size><AbsDimension x="35" y="35" /></Size>
+					<Anchors><Anchor point="CENTER"><Offset><AbsDimension x="0" y="0" /></Offset></Anchor></Anchors>
+				</NormalTexture>
+				<Scripts>
+					<OnEnter>KRT.Logger.Loot:OnEnter(self)</OnEnter>
+					<OnLeave>KRT_TOOLTIP_GUI:Hide()</OnLeave>
+				</Scripts>
+			</Button>
+		</Frames>
+		<HighlightTexture>
+			<Anchors>
+				<Anchor point="TOPLEFT" />
+				<Anchor point="BOTTOMRIGHT" />
+			</Anchors>
+			<Color r="1" g="0.8" b="0" a="0.1" />
+		</HighlightTexture>
+		<Scripts>
+			<OnLoad>self:RegisterForClicks("AnyUp")</OnLoad>
+			<OnClick>KRT.Logger:SelectItem(self, button)</OnClick>
+		</Scripts>
+	</Button>
+	<!-- The Frame: Logger -->
+	<Frame name="KRTLogger" inherits="KRTFrameTemplate">
+		<Size><AbsDimension x="830" y="488" /></Size>
+		<Frames>
+
+			<Frame name="$parentRaids" inherits="KRTLoggerFrameTemplate">
+				<Size><AbsDimension x="330" y="195" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+						<Offset><AbsDimension x="18" y="-35" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="$parentTitle" font="GameFontNormal" justifyH="CENTER" text="Raids List">
+							<Size><AbsDimension x="280" y="5" /></Size>
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset><AbsDimension x="10" y="-10" /></Offset>
+								</Anchor>
+								<Anchor point="TOPRIGHT">
+									<Offset><AbsDimension x="-10" y="-10" /></Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Button name="$parentCurrentBtn" inherits="KRTButtonTemplate" text="Set Current">
+						<Size><AbsDimension x="75" y="25" /></Size>
+						<Anchors>
+							<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT">
+								<Offset><AbsDimension x="3" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Raids:SetCurrent(self, button)</OnClick></Scripts>
+					</Button>
+					<Button name="$parentExportBtn" inherits="KRTButtonTemplate" text="Export">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="BOTTOM" relativePoint="BOTTOM">
+								<Offset><AbsDimension x="-35" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+					</Button>
+					<Button name="$parentDeleteBtn" inherits="KRTButtonTemplate" text="DELETE">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="BOTTOM" relativePoint="BOTTOM">
+								<Offset><AbsDimension x="35" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Raids:Delete(self, button)</OnClick></Scripts>
+					</Button>
+					<!-- Table Headers -->
+					<Button name="$parentHeaderNum" inherits="KRTLoggerTableHeader" text="#">
+						<Size><AbsDimension x="40" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset><AbsDimension x="3" y="-25" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Raids:Sort("id")</OnClick></Scripts>
+					</Button>
+					<Button name="$parentHeaderDate" inherits="KRTLoggerTableHeader" text="Date">
+						<Size><AbsDimension x="100" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentHeaderNum" relativePoint="TOPRIGHT">
+								<Offset><AbsDimension x="0" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Raids:Sort("date")</OnClick></Scripts>
+					</Button>
+					<Button name="$parentHeaderZone" inherits="KRTLoggerTableHeader" text="ZONE">
+						<Size><AbsDimension x="123" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentHeaderDate" relativePoint="TOPRIGHT">
+								<Offset><AbsDimension x="0" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Raids:Sort("zone")</OnClick></Scripts>
+					</Button>
+					<Button name="$parentHeaderSize" inherits="KRTLoggerTableHeader" text="Size">
+						<Size><AbsDimension x="45" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentHeaderZone" relativePoint="TOPRIGHT">
+								<Offset><AbsDimension x="0" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Raids:Sort("size")</OnClick></Scripts>
+					</Button>
+					<ScrollFrame name="$parentScrollFrame" inherits="KRTScrolLFrameTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset><AbsDimension x="3" y="-46" /></Offset>
+							</Anchor>
+							<Anchor point="BOTTOMRIGHT">
+								<Offset><AbsDimension x="-25" y="30" /></Offset>
+							</Anchor>
+						</Anchors>
+					</ScrollFrame>
+				</Frames>
+
+				<Scripts><OnLoad>KRT.Logger.Raids:OnLoad(self)</OnLoad></Scripts>
+			</Frame>
+
+			<Frame name="$parentBosses" inherits="KRTLoggerFrameTemplate">
+				<Size><AbsDimension x="315" y="195" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRaids" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="7" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="$parentTitle" font="GameFontNormal" justifyH="CENTER" text="Bosses">
+							<Size><AbsDimension x="280" y="5" /></Size>
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset><AbsDimension x="10" y="-10" /></Offset>
+								</Anchor>
+								<Anchor point="TOPRIGHT">
+									<Offset><AbsDimension x="-10" y="-10" /></Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Button name="$parentAddBtn" inherits="KRTButtonTemplate" text="ADD">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="BOTTOM" relativePoint="BOTTOM">
+								<Offset><AbsDimension x="-70" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Boss:Add(self, button)</OnClick></Scripts>
+					</Button>
+					<Button name="$parentEditBtn" inherits="KRTButtonTemplate" text="Edit">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="BOTTOM" relativePoint="BOTTOM">
+								<Offset><AbsDimension x="0" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Boss:Edit(self, button)</OnClick></Scripts>
+					</Button>
+					<Button name="$parentDeleteBtn" inherits="KRTButtonTemplate" text="DELETE">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="BOTTOM" relativePoint="BOTTOM">
+								<Offset><AbsDimension x="70" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Boss:Delete(self, button)</OnClick></Scripts>
+					</Button>
+					<!-- Table Headers -->
+					<Button name="$parentHeaderNum" inherits="KRTLoggerTableHeader" text="#">
+						<Size><AbsDimension x="35" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset><AbsDimension x="3" y="-25" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Boss:Sort("id")</OnClick></Scripts>
+					</Button>
+					<Button name="$parentHeaderName" inherits="KRTLoggerTableHeader" text="NAME">
+						<Size><AbsDimension x="148" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentHeaderNum" relativePoint="TOPRIGHT">
+								<Offset><AbsDimension x="0" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Boss:Sort("name")</OnClick></Scripts>
+					</Button>
+					<Button name="$parentHeaderTime" inherits="KRTLoggerTableHeader" text="Time">
+						<Size><AbsDimension x="45" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentHeaderName" relativePoint="TOPRIGHT">
+								<Offset><AbsDimension x="0" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Boss:Sort("time")</OnClick></Scripts>
+					</Button>
+					<Button name="$parentHeaderMode" inherits="KRTLoggerTableHeader" text="MODE">
+						<Size><AbsDimension x="65" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentHeaderTime" relativePoint="TOPRIGHT">
+								<Offset><AbsDimension x="0" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Boss:Sort("mode")</OnClick></Scripts>
+					</Button>
+					<ScrollFrame name="$parentScrollFrame" inherits="KRTScrolLFrameTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset><AbsDimension x="3" y="-46" /></Offset>
+							</Anchor>
+							<Anchor point="BOTTOMRIGHT">
+								<Offset><AbsDimension x="-25" y="30" /></Offset>
+							</Anchor>
+						</Anchors>
+					</ScrollFrame>
+				</Frames>
+				<Scripts><OnLoad>KRT.Logger.Boss:OnLoad(self)</OnLoad></Scripts>
+			</Frame>
+
+			<Frame name="$parentBossAttendees" inherits="KRTLoggerFrameTemplate">
+				<Size><AbsDimension x="140" y="192" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentBosses" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="7" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="$parentTitle" font="GameFontNormal" justifyH="CENTER" text="Boss Attendees">
+							<Size><AbsDimension x="280" y="5" /></Size>
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset><AbsDimension x="10" y="-10" /></Offset>
+								</Anchor>
+								<Anchor point="TOPRIGHT">
+									<Offset><AbsDimension x="-10" y="-10" /></Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Button name="$parentAddBtn" inherits="KRTButtonTemplate" text="ADD">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="BOTTOM" relativePoint="BOTTOM">
+								<Offset><AbsDimension x="-33" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.BossAttendees:Add(self, button)</OnClick></Scripts>
+					</Button>
+					<Button name="$parentRemoveBtn" inherits="KRTButtonTemplate" text="DELETE">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="BOTTOM" relativePoint="BOTTOM">
+								<Offset><AbsDimension x="33" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+					</Button>
+					<!-- Table Headers -->
+					<Button name="$parentHeaderName" inherits="KRTLoggerTableHeader" text="NAME">
+						<Size><AbsDimension x="118" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset><AbsDimension x="3" y="-25" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.BossAttendees:Sort("name")</OnClick></Scripts>
+					</Button>
+					<ScrollFrame name="$parentScrollFrame" inherits="KRTScrolLFrameTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset><AbsDimension x="3" y="-46" /></Offset>
+							</Anchor>
+							<Anchor point="BOTTOMRIGHT">
+								<Offset><AbsDimension x="-25" y="30" /></Offset>
+							</Anchor>
+						</Anchors>
+					</ScrollFrame>
+				</Frames>
+				<Scripts><OnLoad>KRT.Logger.BossAttendees:OnLoad(self)</OnLoad></Scripts>
+			</Frame>
+
+			<Frame name="$parentRaidAttendees" inherits="KRTLoggerFrameTemplate">
+				<Size><AbsDimension x="215" y="235" /></Size>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="18" y="15" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="$parentTitle" font="GameFontNormal" justifyH="CENTER" text="Raid Attendees">
+							<Size><AbsDimension x="280" y="5" /></Size>
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset><AbsDimension x="10" y="-10" /></Offset>
+								</Anchor>
+								<Anchor point="TOPRIGHT">
+									<Offset><AbsDimension x="-10" y="-10" /></Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Button name="$parentAddBtn" inherits="KRTButtonTemplate" text="ADD">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="BOTTOM" relativePoint="BOTTOM">
+								<Offset><AbsDimension x="-35" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.RaidAttendees:Add(self, button)</OnClick></Scripts>
+					</Button>
+					<Button name="$parentDeleteBtn" inherits="KRTButtonTemplate" text="DELETE">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="BOTTOM" relativePoint="BOTTOM">
+								<Offset><AbsDimension x="35" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.RaidAttendees:Delete(self, button)</OnClick></Scripts>
+					</Button>
+					<!-- Table Headers -->
+					<Button name="$parentHeaderName" inherits="KRTLoggerTableHeader" text="NAME">
+						<Size><AbsDimension x="85" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset><AbsDimension x="3" y="-25" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.RaidAttendees:Sort("name")</OnClick></Scripts>
+					</Button>
+					<Button name="$parentHeaderJoin" inherits="KRTLoggerTableHeader" text="Join">
+						<Size><AbsDimension x="55" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentHeaderName" relativePoint="TOPRIGHT">
+								<Offset><AbsDimension x="0" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.RaidAttendees:Sort("join")</OnClick></Scripts>
+					</Button>
+					<Button name="$parentHeaderLeave" inherits="KRTLoggerTableHeader" text="Leave">
+						<Size><AbsDimension x="55" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentHeaderJoin" relativePoint="TOPRIGHT">
+								<Offset><AbsDimension x="0" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.RaidAttendees:Sort("leave")</OnClick></Scripts>
+					</Button>
+					<ScrollFrame name="$parentScrollFrame" inherits="KRTScrolLFrameTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset><AbsDimension x="3" y="-46" /></Offset>
+							</Anchor>
+							<Anchor point="BOTTOMRIGHT">
+								<Offset><AbsDimension x="-25" y="30" /></Offset>
+							</Anchor>
+						</Anchors>
+					</ScrollFrame>
+				</Frames>
+				<Scripts><OnLoad>KRT.Logger.RaidAttendees:OnLoad(self)</OnLoad></Scripts>
+			</Frame>
+
+			<Frame name="$parentLoot" inherits="KRTLoggerFrameTemplate">
+				<Size><AbsDimension x="578" y="235" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRaidAttendees" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="7" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="$parentTitle" font="GameFontNormal" justifyH="CENTER" text="Raid Loot">
+							<Size><AbsDimension x="280" y="5" /></Size>
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset><AbsDimension x="10" y="-10" /></Offset>
+								</Anchor>
+								<Anchor point="TOPRIGHT">
+									<Offset><AbsDimension x="-10" y="-10" /></Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Button name="$parentExportBtn" inherits="KRTButtonTemplate" text="Export">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="BOTTOM" relativePoint="BOTTOM">
+								<Offset><AbsDimension x="-163" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+					</Button>
+					<Button name="$parentClearBtn" inherits="KRTButtonTemplate" text="Clear">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="LEFT" relativeTo="$parentExportBtn" relativePoint="RIGHT">
+								<Offset><AbsDimension x="3" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+					</Button>
+					<Button name="$parentAddBtn" inherits="KRTButtonTemplate" text="ADD">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="BOTTOM" relativePoint="BOTTOM">
+								<Offset><AbsDimension x="53" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+					</Button>
+					<Button name="$parentEditBtn" inherits="KRTButtonTemplate" text="Edit">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="LEFT" relativeTo="$parentAddBtn" relativePoint="RIGHT">
+								<Offset><AbsDimension x="3" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+					</Button>
+					<Button name="$parentDeleteBtn" inherits="KRTButtonTemplate" text="DELETE">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="LEFT" relativeTo="$parentEditBtn" relativePoint="RIGHT">
+								<Offset><AbsDimension x="3" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Loot:Delete(self, button)</OnClick></Scripts>
+					</Button>
+
+					<!-- Table Headers -->
+					<Button name="$parentHeaderItem" inherits="KRTLoggerTableHeader" text="Item">
+						<Size><AbsDimension x="190" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset><AbsDimension x="3" y="-25" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Loot:Sort("id")</OnClick></Scripts>
+					</Button>
+					<Button name="$parentHeaderSource" inherits="KRTLoggerTableHeader" text="Source">
+						<Size><AbsDimension x="135" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentHeaderItem" relativePoint="TOPRIGHT">
+								<Offset><AbsDimension x="0" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Loot:Sort("source")</OnClick></Scripts>
+					</Button>
+					<Button name="$parentHeaderWinner" inherits="KRTLoggerTableHeader" text="Winner">
+						<Size><AbsDimension x="90" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentHeaderSource" relativePoint="TOPRIGHT">
+								<Offset><AbsDimension x="0" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Loot:Sort("winner")</OnClick></Scripts>
+					</Button>
+					<Button name="$parentHeaderType" inherits="KRTLoggerTableHeader" text="TYPE">
+						<Size><AbsDimension x="50" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentHeaderWinner" relativePoint="TOPRIGHT">
+								<Offset><AbsDimension x="0" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Loot:Sort("type")</OnClick></Scripts>
+					</Button>
+					<Button name="$parentHeaderRoll" inherits="KRTLoggerTableHeader" text="Roll">
+						<Size><AbsDimension x="45" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentHeaderType" relativePoint="TOPRIGHT">
+								<Offset><AbsDimension x="0" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Loot:Sort("roll")</OnClick></Scripts>
+					</Button>
+					<Button name="$parentHeaderTime" inherits="KRTLoggerTableHeader" text="Time">
+						<Size><AbsDimension x="45" y="20" /></Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentHeaderRoll" relativePoint="TOPRIGHT">
+								<Offset><AbsDimension x="0" y="0" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.Loot:Sort("time")</OnClick></Scripts>
+					</Button>
+					<ScrollFrame name="$parentScrollFrame" inherits="KRTScrolLFrameTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset><AbsDimension x="3" y="-46" /></Offset>
+							</Anchor>
+							<Anchor point="BOTTOMRIGHT">
+								<Offset><AbsDimension x="-25" y="30" /></Offset>
+							</Anchor>
+						</Anchors>
+					</ScrollFrame>
+				</Frames>
+				<Scripts><OnLoad>KRT.Logger.Loot:OnLoad(self)</OnLoad></Scripts>
+			</Frame>
+
+			<!-- Add/Edit Boss: -->
+			<Frame name="KRTLoggerBossBox" inherits="KRTSimpleFrameTemplate" frameStrata="HIGH" parent="KRTLogger">
+				<Size><AbsDimension x="185" y="145" /></Size>
+				<HitRectInsets left="-3750" right="-240" top="-30" bottom="-290" />
+				<Anchors>
+					<Anchor point="TOP" relativePoint="TOP">
+						<Offset><AbsDimension x="75" y="-60" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture file="Interface\DialogFrame\UI-DialogBox-Background-Dark">
+							<Anchors>
+								<Anchor point="TOPLEFT" relativeTo="KRTLogger" relativePoint="TOPLEFT">
+									<Offset><AbsDimension x="10" y="-32" /></Offset>
+								</Anchor>
+								<Anchor point="BOTTOMRIGHT" relativeTo="KRTLogger" relativePoint="BOTTOMRIGHT">
+									<Offset><AbsDimension x="-10" y="10" /></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+					<Layer level="ARTWORK">
+						<FontString name="$parentTitle" font="GameFontNormal" justifyH="CENTER" text="Add Boss">
+							<Size><AbsDimension x="200" y="5" /></Size>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="10" y="-10" />
+								<Anchor point="RIGHT" x="-10" />
+							</Anchors>
+						</FontString>
+						<FontString inherits="KRTFontString" font="GameFontNormalSmall" text="NAME">
+							<Size><AbsDimension x="200" y="5" /></Size>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="10" y="-30" />
+								<Anchor point="RIGHT" x="-10" />
+							</Anchors>
+						</FontString>
+						<FontString name="$parentDifficultyStr" inherits="KRTFontString" font="GameFontNormalSmall" text="Difficulty">
+							<Size><AbsDimension x="200" y="5" /></Size>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="10" y="-75" />
+								<Anchor point="RIGHT" x="-90" />
+							</Anchors>
+						</FontString>
+						<FontString name="$parentTimeStr" inherits="KRTFontString" font="GameFontNormalSmall" text="Time">
+							<Size><AbsDimension x="200" y="5" /></Size>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="95" y="-75" />
+								<Anchor point="RIGHT" x="-10" />
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<EditBox name="$parentName" inherits="KRTEditBoxTemplate">
+						<Size x="100" y="25" />
+						<Anchors>
+							<Anchor point="TOPLEFT" x="15" y="-40" />
+							<Anchor point="RIGHT" x="-10" />
+						</Anchors>
+						<Scripts><OnEnterPressed>KRT.Logger.BossBox:Save()</OnEnterPressed></Scripts>
+					</EditBox>
+					<EditBox name="$parentDifficulty" inherits="KRTEditBoxTemplate" letters="1">
+						<Size x="100" y="25" />
+						<Anchors>
+							<Anchor point="TOPLEFT" x="15" y="-85" />
+							<Anchor point="RIGHT" x="-100" />
+						</Anchors>
+						<Scripts><OnEnterPressed>KRT.Logger.BossBox:Save()</OnEnterPressed></Scripts>
+					</EditBox>
+					<EditBox name="$parentTime" inherits="KRTEditBoxTemplate">
+						<Size x="100" y="25" />
+						<Anchors>
+							<Anchor point="TOPLEFT" x="100" y="-85" />
+							<Anchor point="RIGHT" x="-10" />
+						</Anchors>
+						<Scripts><OnEnterPressed>KRT.Logger.BossBox:Save()</OnEnterPressed></Scripts>
+					</EditBox>
+					<Button name="$parentSaveBtn" inherits="KRTButtonTemplate" text="SAVE">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="BOTTOMLEFT">
+								<Offset><AbsDimension x="5" y="6" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.BossBox:Save()</OnClick></Scripts>
+					</Button>
+					<Button inherits="KRTButtonTemplate" text="CANCEL">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="BOTTOMRIGHT">
+								<Offset><AbsDimension x="-5" y="6" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>self:GetParent():Hide()</OnClick></Scripts>
+					</Button>
+				</Frames>
+				<Scripts>
+					<OnLoad>KRT.Logger.BossBox:OnLoad(self)</OnLoad>
+					<OnDragStart>self:GetParent():StartMoving()</OnDragStart>
+					<OnDragStop>self:GetParent():StopMovingOrSizing()</OnDragStop>
+				</Scripts>
+			</Frame>
+
+
+			<!-- Add/Edit Boss Attendee: -->
+			<Frame name="$parentPlayerBox" inherits="KRTSimpleFrameTemplate" frameStrata="HIGH" hidden="true" parent="KRTLogger">
+				<Size><AbsDimension x="185" y="100" /></Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="-15" y="-85" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture file="Interface\DialogFrame\UI-DialogBox-Background-Dark">
+							<Anchors>
+								<Anchor point="TOPLEFT" relativeTo="KRTLogger" relativePoint="TOPLEFT">
+									<Offset><AbsDimension x="10" y="-32" /></Offset>
+								</Anchor>
+								<Anchor point="BOTTOMRIGHT" relativeTo="KRTLogger" relativePoint="BOTTOMRIGHT">
+									<Offset><AbsDimension x="-10" y="10" /></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+					<Layer level="ARTWORK">
+						<FontString name="$parentTitle" font="GameFontNormal" justifyH="CENTER" text="Add Player">
+							<Size><AbsDimension x="200" y="5" /></Size>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="10" y="-10" />
+								<Anchor point="RIGHT" x="-10" />
+							</Anchors>
+						</FontString>
+						<FontString inherits="KRTFontString" font="GameFontNormalSmall" text="NAME">
+							<Size><AbsDimension x="200" y="5" /></Size>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="10" y="-30" />
+								<Anchor point="RIGHT" x="-10" />
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<EditBox name="$parentName" inherits="KRTEditBoxTemplate">
+						<Size x="100" y="25" />
+						<Anchors>
+							<Anchor point="TOPLEFT" x="15" y="-40" />
+							<Anchor point="RIGHT" x="-10" />
+						</Anchors>
+					</EditBox>
+					<Button name="$parentAddBtn" inherits="KRTButtonTemplate" text="ADD">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="BOTTOMLEFT">
+								<Offset><AbsDimension x="5" y="6" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>KRT.Logger.AttendeesBox:Save()</OnClick></Scripts>
+					</Button>
+					<Button inherits="KRTButtonTemplate" text="CANCEL">
+						<Size><AbsDimension x="65" y="25" /></Size>
+						<Anchors>
+							<Anchor point="BOTTOMRIGHT">
+								<Offset><AbsDimension x="-5" y="6" /></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts><OnClick>self:GetParent():Hide()</OnClick></Scripts>
+					</Button>
+				</Frames>
+				<Scripts>
+					<OnLoad>KRT.Logger.AttendeesBox:OnLoad(self)</OnLoad>
+					<OnDragStart>self:GetParent():StartMoving()</OnDragStart>
+					<OnDragStop>self:GetParent():StopMovingOrSizing()</OnDragStop>
+				</Scripts>
+			</Frame>
+		</Frames>
+		<Scripts><OnLoad>KRT.Logger:OnLoad(self)</OnLoad></Scripts>
+	</Frame>
+
+</Ui>

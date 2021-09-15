@@ -1,0 +1,38 @@
+## Interface: 30300
+## Title: !|cfff58cbaK|r|caaf49141RaidTools|r
+## Notes: |cfff58cbaKader|r|caaf49141RaidTools|r makes the raid leader's life easier.
+## Notes-frFR: |cff69ccf0Kader|r|caaf49141RaidTools|r facilite la vie du chef de raid.
+## Author: Kader B (Earwin)
+## DefaultState: enabled
+## SavedVariables: KRT_Options, KRT_Raids, KRT_Players, KRT_CurrentRaid, KRT_LastBoss, KRT_NextReset, KRT_Warnings, KRT_Spammer, KRT_ExportString
+## Version: 0.5.4b
+## X-Date: 2019-11-17
+## X-Category: Raid, Inventory
+## X-License: MIT/X
+## X-Email: bkader@mail.com
+## X-Website: https://github.com/bkader/KRT
+## X-Discord: |https://bit.ly/skada-rev
+## X-Localizations: Kader (frFR)
+## X-Donate: |cff0079c1PayPal|r or |cff246a96Paysera|r at |cff20ff20bkader@mail.com|r
+
+# Libraries:
+Libs\LibStub.lua
+Libs\LibDeformat-3.0.lua
+
+# Localization:
+localization.en.lua
+localization.cn.lua
+localization.de.lua
+localization.es.lua
+localization.fr.lua
+localization.kr.lua
+localization.ru.lua
+localization.tw.lua
+
+# Templates File:
+Templates.xml
+
+# Utilities & Core Files:
+Utils.lua
+KRT.lua
+KRT.xml
