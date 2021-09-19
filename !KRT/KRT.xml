@@ -280,7 +280,7 @@
 	</CheckButton>
 	<!-- The Frame: LFM Spam -->
 	<Frame name="KRTSpammer" inherits="KRTFrameTemplate">
-		<Size><AbsDimension x="260" y="365" /></Size>
+		<Size><AbsDimension x="260" y="380" /></Size>
 		<Layers>
 			<Layer level="ARTWORK">
 				<FontString name="$parentNameStr" text="RAID" inherits="GameFontNormalSmall" justifyH="LEFT" justifyV="BOTTOM">
@@ -311,10 +311,10 @@
 					<Size><AbsDimension x="105" y="10" /></Size>
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset><AbsDimension x="20" y="-90" /></Offset>
+							<Offset><AbsDimension x="20" y="-85" /></Offset>
 						</Anchor>
 						<Anchor point="TOPRIGHT">
-							<Offset><AbsDimension x="-15" y="-90" /></Offset>
+							<Offset><AbsDimension x="-15" y="-85" /></Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -322,7 +322,7 @@
 					<Size><AbsDimension x="105" y="10" /></Size>
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset><AbsDimension x="85" y="-110" /></Offset>
+							<Offset><AbsDimension x="85" y="-105" /></Offset>
 						</Anchor>
 						<Anchor point="TOPRIGHT">
 							<Offset><AbsDimension x="-140" y="-105" /></Offset>
@@ -333,7 +333,7 @@
 					<Size><AbsDimension x="105" y="10" /></Size>
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset><AbsDimension x="130" y="-110" /></Offset>
+							<Offset><AbsDimension x="130" y="-105" /></Offset>
 						</Anchor>
 						<Anchor point="TOPRIGHT">
 							<Offset><AbsDimension x="0" y="-105" /></Offset>
@@ -344,7 +344,7 @@
 					<Size><AbsDimension x="55" y="18" /></Size>
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset><AbsDimension x="20" y="-122" /></Offset>
+							<Offset><AbsDimension x="20" y="-117" /></Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -428,10 +428,42 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
+				<FontString name="$parentChannel6Str" inherits="GameFontHighlightSmall" text="6" justifyH="LEFT" justifyV="BOTTOM">
+					<Size><AbsDimension x="10" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentChannel5Str" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="17" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentChannel7Str" inherits="GameFontHighlightSmall" text="7" justifyH="LEFT" justifyV="BOTTOM">
+					<Size><AbsDimension x="10" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentChannel1Str" relativePoint="BOTTOMLEFT">
+							<Offset><AbsDimension x="0" y="2" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentChannel8Str" inherits="GameFontHighlightSmall" text="8" justifyH="LEFT" justifyV="BOTTOM">
+					<Size><AbsDimension x="10" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentChannel7Str" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="17" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentChannel9Str" inherits="GameFontHighlightSmall" text="9" justifyH="LEFT" justifyV="BOTTOM">
+					<Size><AbsDimension x="10" y="18" /></Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentChannel8Str" relativePoint="TOPRIGHT">
+							<Offset><AbsDimension x="17" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
 				<FontString name="$parentChannelGuildStr" inherits="GameFontHighlightSmall" text="GUILD " justifyH="LEFT" justifyV="BOTTOM">
 					<Size><AbsDimension x="35" y="18" /></Size>
 					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parentChannel5Str" relativePoint="TOPRIGHT">
+						<Anchor point="TOPLEFT" relativeTo="$parentChannel9Str" relativePoint="TOPRIGHT">
 							<Offset><AbsDimension x="17" y="0" /></Offset>
 						</Anchor>
 					</Anchors>
@@ -440,10 +472,10 @@
 					<Size><AbsDimension x="55" y="18" /></Size>
 					<Anchors>
 						<Anchor point="TOPLEFT" >
-							<Offset><AbsDimension x="20" y="-285" /></Offset>
+							<Offset><AbsDimension x="20" y="-292" /></Offset>
 						</Anchor>
 						<Anchor point="TOPRIGHT" >
-							<Offset><AbsDimension x="-15" y="-285" /></Offset>
+							<Offset><AbsDimension x="-15" y="-292" /></Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -451,7 +483,7 @@
 					<Size><AbsDimension x="218" y="0" /></Size>
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset><AbsDimension x="20" y="-310" /></Offset>
+							<Offset><AbsDimension x="20" y="-312" /></Offset>
 						</Anchor>
 						<Anchor point="BOTTOMRIGHT">
 							<Offset><AbsDimension x="-15" y="15" /></Offset>
@@ -462,7 +494,7 @@
 					<Size><AbsDimension x="55" y="18" /></Size>
 					<Anchors>
 						<Anchor point="TOPRIGHT" >
-							<Offset><AbsDimension x="-15" y="-295" /></Offset>
+							<Offset><AbsDimension x="-15" y="-305" /></Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -511,7 +543,7 @@
 				<Size><AbsDimension x="25" y="13" /></Size>
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset><AbsDimension x="90" y="-130" /></Offset>
+						<Offset><AbsDimension x="90" y="-125" /></Offset>
 					</Anchor>
 				</Anchors>
 				<FontString justifyH="CENTER" />
@@ -639,9 +671,37 @@
 					</Anchor>
 				</Anchors>
 			</CheckButton>
-			<CheckButton name="$parentChatGuild" inherits="KRTSpammerCheckButton">
+			<CheckButton name="$parentChat6" inherits="KRTSpammerCheckButton">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentChat5" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="12" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentChat7" inherits="KRTSpammerCheckButton">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentChat1" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentChat8" inherits="KRTSpammerCheckButton">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentChat7" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="12" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentChat9" inherits="KRTSpammerCheckButton">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentChat8" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="12" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="$parentChatGuild" inherits="KRTSpammerCheckButton">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentChat9" relativePoint="TOPRIGHT">
 						<Offset><AbsDimension x="12" y="0" /></Offset>
 					</Anchor>
 				</Anchors>
