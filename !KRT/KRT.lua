@@ -686,10 +686,14 @@ do
 				if name == p.name then
 					found = true
 					break
+				elseif strlen(name) >= 5 and p.name:startsWith(name) then
+					name = p.name
+					found = true
+					break
 				end
 			end
 		end
-		return found
+		return found, name
 	end
 
 	-- Returns the players ID:
@@ -2821,7 +2825,9 @@ do
 		name = ucfirst(name:trim())
 		spec = ucfirst(spec:trim())
 		-- Is the player in the raid?
-		if not addon.Raid:CheckPlayer(name) then
+		local found
+		found, name = addon.Raid:CheckPlayer(name)
+		if not found then
 			addon:PrintError(format((name == "" and L.ErrChangesNoPlayer or L.ErrCannotFindPlayer), name))
 			return
 		end
