@@ -52,7 +52,7 @@ L.BtnBank                  = "Bank"
 L.BtnDisenchant            = "DE"
 L.StrNoItemSelected        = "No item selected"
 L.StrRoll                  = "Roll"
-L.ChatSpamLoot             = "The boss dropped: "
+L.ChatSpamLoot             = "The boss dropped:"
 L.ChatReadyCheck           = "Ready Check before rolling items!"
 L.ChatRollMS               = "Roll for MS on: %s"
 L.ChatRollOS               = "Roll for OS on: %s"
@@ -102,11 +102,11 @@ L.StrConfigIgnoreStacks         = "Allow trading a stack of an item"
 L.StrConfigShowTooltips         = "Show items tooltips"
 L.StrConfigMinimapButton        = "Show minimap button"
 L.StrConfigCountdownDuration    = "Countdown Duration"
-L.StrConfigAbout                = "Made with love by |cfff58cbaKader|r B\n|cffffffffhttps://github.com/bkader|r\nbkader@mail.com"
+L.StrConfigAbout                = "Made with love by |cfff58cbaKader|r B\n|cffffffffhttps://github.com/bkader|r\nhttps://discord.gg/a8z5CyS3eW"
 
 -- ==================== Raid Warnings Frame ==================== --
 L.StrMessage            = "Message"
-L.StrWarningsHelp        = "Tips:"
+L.StrWarningsHelp       = "Tips:"
 L.StrWarningsHelp       = "- |cffffd700Left-Click|r to select a warning, click again to cancel selection.\n- |cffffd700Ctrl-Click|r for a quick raid warning.\n- When you select a warning, you can either |cffffd700Edit|r it, |cffffd700Delete|r it or |cffffd700Announce|r it using the provided buttons."
 L.StrWarningsError      = "Only the body of a message is required! Though, we recommend naming your warnings so you never get lost."
 L.StrCmdWarningAnnounce = "announce the specified raid warning"
@@ -194,7 +194,6 @@ L.ErrAttendeesInvalidName = "The provided name is either invalid or the player w
 L.ErrAttendeesInvalidRaidBoss = "Invalid raid or boss ID."
 L.ErrAttendeesPlayerExists = "This player is already on the boss attendees list."
 L.StrAttendeesAddSuccess = "Player successfully added to the boss attendees."
--- L.StrAddA
 
 -- ==================== Logger: EditBox Frame ==================== --
 L.StrAddEntry = "Add Entry"

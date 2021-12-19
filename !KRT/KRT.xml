@@ -48,7 +48,7 @@
 	</FontString>
 	<!-- The Frame: Config -->
 	<Frame name="KRTConfig" inherits="KRTFrameTemplate">
-		<Size><AbsDimension x="230" y="425" /></Size>
+		<Size><AbsDimension x="245" y="445" /></Size>
 		<Layers>
 			<Layer level="ARTWORK">
 				<FontString name="$parentsortAscendingStr" inherits="KRTConfigFontStringTemplate" text="Sort rolls ascending">
@@ -399,7 +399,7 @@
 				<FontString name="$parentChannel2Str" inherits="GameFontHighlightSmall" text="2" justifyH="LEFT" justifyV="BOTTOM">
 					<Size><AbsDimension x="10" y="18" /></Size>
 					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parentChannel1Str" relativePoint="TOPRIGHT">
+						<Anchor point="LEFT" relativeTo="$parentChannel1Str" relativePoint="RIGHT">
 							<Offset><AbsDimension x="17" y="0" /></Offset>
 						</Anchor>
 					</Anchors>
@@ -407,7 +407,7 @@
 				<FontString name="$parentChannel3Str" inherits="GameFontHighlightSmall" text="3" justifyH="LEFT" justifyV="BOTTOM">
 					<Size><AbsDimension x="10" y="18" /></Size>
 					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parentChannel2Str" relativePoint="TOPRIGHT">
+						<Anchor point="LEFT" relativeTo="$parentChannel2Str" relativePoint="RIGHT">
 							<Offset><AbsDimension x="17" y="0" /></Offset>
 						</Anchor>
 					</Anchors>
@@ -415,7 +415,7 @@
 				<FontString name="$parentChannel4Str" inherits="GameFontHighlightSmall" text="4" justifyH="LEFT" justifyV="BOTTOM">
 					<Size><AbsDimension x="10" y="18" /></Size>
 					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parentChannel3Str" relativePoint="TOPRIGHT">
+						<Anchor point="LEFT" relativeTo="$parentChannel3Str" relativePoint="RIGHT">
 							<Offset><AbsDimension x="17" y="0" /></Offset>
 						</Anchor>
 					</Anchors>
@@ -423,7 +423,7 @@
 				<FontString name="$parentChannel5Str" inherits="GameFontHighlightSmall" text="5" justifyH="LEFT" justifyV="BOTTOM">
 					<Size><AbsDimension x="10" y="18" /></Size>
 					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parentChannel4Str" relativePoint="TOPRIGHT">
+						<Anchor point="LEFT" relativeTo="$parentChannel4Str" relativePoint="RIGHT">
 							<Offset><AbsDimension x="17" y="0" /></Offset>
 						</Anchor>
 					</Anchors>
@@ -431,7 +431,7 @@
 				<FontString name="$parentChannel6Str" inherits="GameFontHighlightSmall" text="6" justifyH="LEFT" justifyV="BOTTOM">
 					<Size><AbsDimension x="10" y="18" /></Size>
 					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parentChannel5Str" relativePoint="TOPRIGHT">
+						<Anchor point="LEFT" relativeTo="$parentChannel5Str" relativePoint="RIGHT">
 							<Offset><AbsDimension x="17" y="0" /></Offset>
 						</Anchor>
 					</Anchors>
@@ -447,15 +447,7 @@
 				<FontString name="$parentChannel8Str" inherits="GameFontHighlightSmall" text="8" justifyH="LEFT" justifyV="BOTTOM">
 					<Size><AbsDimension x="10" y="18" /></Size>
 					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parentChannel7Str" relativePoint="TOPRIGHT">
-							<Offset><AbsDimension x="17" y="0" /></Offset>
-						</Anchor>
-					</Anchors>
-				</FontString>
-				<FontString name="$parentChannel9Str" inherits="GameFontHighlightSmall" text="9" justifyH="LEFT" justifyV="BOTTOM">
-					<Size><AbsDimension x="10" y="18" /></Size>
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parentChannel8Str" relativePoint="TOPRIGHT">
+						<Anchor point="LEFT" relativeTo="$parentChannel7Str" relativePoint="RIGHT">
 							<Offset><AbsDimension x="17" y="0" /></Offset>
 						</Anchor>
 					</Anchors>
@@ -463,7 +455,15 @@
 				<FontString name="$parentChannelGuildStr" inherits="GameFontHighlightSmall" text="GUILD " justifyH="LEFT" justifyV="BOTTOM">
 					<Size><AbsDimension x="35" y="18" /></Size>
 					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parentChannel9Str" relativePoint="TOPRIGHT">
+						<Anchor point="LEFT" relativeTo="$parentChannel8Str" relativePoint="RIGHT">
+							<Offset><AbsDimension x="17" y="0" /></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentChannelYellStr" inherits="GameFontHighlightSmall" text="YELL" justifyH="LEFT" justifyV="BOTTOM">
+					<Size><AbsDimension x="35" y="18" /></Size>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentChannelGuildStr" relativePoint="RIGHT">
 							<Offset><AbsDimension x="17" y="0" /></Offset>
 						</Anchor>
 					</Anchors>
@@ -692,17 +692,17 @@
 					</Anchor>
 				</Anchors>
 			</CheckButton>
-			<CheckButton name="$parentChat9" inherits="KRTSpammerCheckButton">
+			<CheckButton name="$parentChatGuild" inherits="KRTSpammerCheckButton">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentChat8" relativePoint="TOPRIGHT">
 						<Offset><AbsDimension x="12" y="0" /></Offset>
 					</Anchor>
 				</Anchors>
 			</CheckButton>
-			<CheckButton name="$parentChatGuild" inherits="KRTSpammerCheckButton">
+			<CheckButton name="$parentChatYell" inherits="KRTSpammerCheckButton">
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parentChat9" relativePoint="TOPRIGHT">
-						<Offset><AbsDimension x="12" y="0" /></Offset>
+					<Anchor point="TOPLEFT" relativeTo="$parentChatGuild" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="38" y="0" /></Offset>
 					</Anchor>
 				</Anchors>
 			</CheckButton>

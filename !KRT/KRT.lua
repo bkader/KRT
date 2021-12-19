@@ -146,7 +146,7 @@ local bossListIDs = {
 local markers = {"{circle}", "{diamond}", "{triangle}", "{moon}", "{square}", "{cross}", "{skull}"}
 
 -- Windows Title String:
-local titleString = "|cfff58cbaKRT|r : %s"
+local titleString = "|cfff58cbaK|r|caaf49141RT|r : %s"
 
 -- Some local functions:
 local TriggerEvent
@@ -2972,8 +2972,8 @@ do
 			return
 		end
 		for i, c in ipairs(channels) do
-			if c == "Guild" then
-				SendChatMessage(tostring(finalOutput), "GUILD")
+			if c == "Guild" or c == "Yell" then
+				SendChatMessage(tostring(finalOutput), upper(c))
 			else
 				SendChatMessage(tostring(finalOutput), "CHANNEL", nil, c)
 			end
@@ -3917,6 +3917,9 @@ do
 	-- Localizing frame:
 	function LocalizeUIFrame()
 		if localized then return end
+		if GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
+			_G[frameName.."Title"]:SetText(L.StrBossAttendees)
+		end
 		localized = true
 	end
 

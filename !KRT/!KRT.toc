@@ -5,13 +5,13 @@
 ## Author: Kader B (Earwin)
 ## DefaultState: enabled
 ## SavedVariables: KRT_Options, KRT_Raids, KRT_Players, KRT_CurrentRaid, KRT_LastBoss, KRT_NextReset, KRT_Warnings, KRT_Spammer, KRT_ExportString
-## Version: 0.5.4b
-## X-Date: 2019-11-17
+## Version: 0.5.5b
+## X-Date: 2021-12-19 @ 02:46 AM |cff808080UTC|r
 ## X-Category: Raid, Inventory
 ## X-License: MIT/X
 ## X-Email: bkader@mail.com
 ## X-Website: https://github.com/bkader/KRT
-## X-Discord: |https://bit.ly/skada-rev
+## X-Discord: https://discord.gg/a8z5CyS3eW
 ## X-Localizations: Kader (frFR)
 ## X-Donate: |cff0079c1PayPal|r or |cff246a96Paysera|r at |cff20ff20bkader@mail.com|r
 

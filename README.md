@@ -1,3 +1,4 @@
+
 # KRT: Kader Raid Tools
 AddOn Version: **0.5.4n**
 Game Version: **3.3.5a**
@@ -51,9 +52,9 @@ You can either **Clear** everything and start over, you can as well **Ask For Ch
 
 **Tip**: If you want to spam a single player's MS Change, **Ctrl+Click**.
 
-## Loot Bans (*in progress*)
+## ~~Loot Bans (*in progress*)~~
 
-Sometimes people just f\*\*\* up with tactics, and this is a cool feature I am currently working on that will allow you track who's banned from which boss' loot ... etc
+~~Sometimes people just f\*\*\* up with tactics, and this is a cool feature I am currently working on that will allow you track who's banned from which boss' loot ... etc~~
 
 ## Loot Master
 
@@ -84,4 +85,32 @@ Going from top to bottom, here are the different buttons you will see on the mai
 
 ## Loot History (*Logger*)
 
-More details about this one later.
+This module stores the list of all your raids, their rosters (players per raid and players per encounter), as well as the loot collected during raids.
+
+### Raids List
+
+On the top left side of the window, you will have the list of all the raids you have been into, ordered ovbiously from oldest to newest, but you can order them by date, zone or size using the table header buttons.
+
+### Bosses
+
+On the top middle of the window, you can see the list of all encounters, including trash fights, you have been into for the selected raid. You can add, edit or delete any boss you want but keep in mind that the loot from that deleted encounter will be deleted as well.
+
+### Boss Attendees
+
+On the top right side of the window, you have the list of the players that were present during the selected boss encounter.
+
+### Raid Attendees
+
+On the bottom left side of the window, you will see the list of players that have been in the selected raid independently from the encounters. This includes players that have been replaced as well.
+
+### Raid Loot
+
+On the bottom right side of the window, you have the list of all the looted items durinh your raids, showing items, sources, winners, win types, win scores and the hour.
+
+Items can be filtered by boss or by player, so selecting a boss fight will only list the items that dropped from that boss, selected a player shows only the items collected by that player and of course you can have multiple filters, like selecting a boss and a player will only show the list of items dropped by the boss and won by the player.
+
+Right-clicking on an item from the list allows you the change the winner, the win type and the win score (_the hour doesn't matter_). This is useful when you are holding items for later roll, so whenever you roll items and hand them to winners, just change the info about the item. Note that this was the simplest method possible without having to make complex ways to automatically change info about items.
+
+## Note
+
+Since I didn't have time to work on the addon, some features aren't available yet but as soon as I can work on it, I will add them.
