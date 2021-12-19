@@ -2943,7 +2943,7 @@ do
 				duration = tonumber(duration)
 				tickPos = (duration >= 1 and duration or 60) + 1
 				ticking = true
-				Spammer:Spam()
+				-- Spammer:Spam()
 			end
 		end
 	end
