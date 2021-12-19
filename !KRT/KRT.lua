@@ -1039,16 +1039,16 @@ do
 			end
 		end)
 		KRT_MINIMAP_GUI:SetScript("OnEnter", function(self)
-			GameTooltip_SetDefaultAnchor(KRT_TOOLTIP_GUI, self)
-			KRT_TOOLTIP_GUI:SetText("|cfff58cbaKader|r |caad4af37Raid Tools|r")
-			KRT_TOOLTIP_GUI:AddLine(L.StrMinimapLClick, 1, 1, 1)
-			KRT_TOOLTIP_GUI:AddLine(L.StrMinimapRClick, 1, 1, 1)
-			KRT_TOOLTIP_GUI:AddLine(L.StrMinimapSClick, 1, 1, 1)
-			KRT_TOOLTIP_GUI:AddLine(L.StrMinimapAClick, 1, 1, 1)
-			KRT_TOOLTIP_GUI:Show()
+			GameTooltip_SetDefaultAnchor(GameTooltip, self)
+			GameTooltip:SetText("|cfff58cbaKader|r |caad4af37Raid Tools|r")
+			GameTooltip:AddLine(L.StrMinimapLClick, 1, 1, 1)
+			GameTooltip:AddLine(L.StrMinimapRClick, 1, 1, 1)
+			GameTooltip:AddLine(L.StrMinimapSClick, 1, 1, 1)
+			GameTooltip:AddLine(L.StrMinimapAClick, 1, 1, 1)
+			GameTooltip:Show()
 		end)
 		KRT_MINIMAP_GUI:SetScript("OnLeave", function(self)
-			KRT_TOOLTIP_GUI:Hide()
+			GameTooltip:Hide()
 		end)
 	end
 
@@ -1383,13 +1383,6 @@ do
 			if self.options.showTooltips then
 				currentItemBtn.tooltip_item = i.itemLink
 				self:SetTooltip(currentItemBtn, nil, "ANCHOR_CURSOR")
-				-- KRT_TOOLTIP_GUI:SetOwner(currentItemBtn, "ANCHOR_CURSOR")
-				-- KRT_TOOLTIP_GUI:SetHyperlink(i.itemLink)
-				-- currentItemBtn:SetScript("OnEnter", function(self)
-				-- end)
-				-- currentItemBtn:SetScript("OnLeave", function()
-				--  KRT_TOOLTIP_GUI:Hide()
-				-- end)
 			end
 			TriggerEvent("SetItem", i.itemLink)
 		end
@@ -1455,7 +1448,8 @@ do
 
 	-- Check if an item is soul bound:
 	function ItemIsSoulbound(bag, slot)
-		local tip = CreateFrame("GameTooltip", "KRT_FakeTooltip", nil, "GameTooltipTemplate")
+		local tip = KRT_FakeTooltip or CreateFrame("GameTooltip", "KRT_FakeTooltip", nil, "GameTooltipTemplate")
+		KRT_FakeTooltip = tip
 		tip:SetOwner(UIParent, "ANCHOR_NONE")
 		tip:SetBagItem(bag, slot)
 		tip:Show()
@@ -3178,38 +3172,38 @@ do
 	local function ShowTooltip(frame)
 		-- Is the anchor manually set?
 		if not frame.tooltip_anchor then
-			GameTooltip_SetDefaultAnchor(KRT_TOOLTIP_GUI, frame)
+			GameTooltip_SetDefaultAnchor(GameTooltip, frame)
 		else
-			KRT_TOOLTIP_GUI:SetOwner(frame, frame.tooltip_anchor)
+			GameTooltip:SetOwner(frame, frame.tooltip_anchor)
 		end
 
 		-- Do we have a title?
 		if frame.tooltip_title then
-			KRT_TOOLTIP_GUI:SetText(frame.tooltip_title)
+			GameTooltip:SetText(frame.tooltip_title)
 		end
 
 		-- Do We have a text?
 		if frame.tooltip_text then
 			if type(frame.tooltip_text) == "string" then
-				KRT_TOOLTIP_GUI:AddLine(frame.tooltip_text, colors.r, colors.g, colors.b, true)
+				GameTooltip:AddLine(frame.tooltip_text, colors.r, colors.g, colors.b, true)
 			elseif type(frame.tooltip_text) == "table" then
 				for _, l in ipairs(frame.tooltip_text) do
-					KRT_TOOLTIP_GUI:AddLine(l, colors.r, colors.g, colors.b, true)
+					GameTooltip:AddLine(l, colors.r, colors.g, colors.b, true)
 				end
 			end
 		end
 
 		-- Do we have an item tooltip?
 		if frame.tooltip_item then
-			KRT_TOOLTIP_GUI:SetHyperlink(frame.tooltip_item)
+			GameTooltip:SetHyperlink(frame.tooltip_item)
 		end
 
-		KRT_TOOLTIP_GUI:Show()
+		GameTooltip:Show()
 	end
 
 	-- Hides the tooltip:
 	local function HideTooltip()
-		KRT_TOOLTIP_GUI:Hide()
+		GameTooltip:Hide()
 	end
 
 	-- Sets addon tooltips scripts:
@@ -4431,8 +4425,8 @@ do
 		if not btn then return end
 		local iID = btn:GetParent():GetID()
 		if not raidLoot[iID] then return end
-		KRT_TOOLTIP_GUI:SetOwner(btn, "ANCHOR_CURSOR")
-		KRT_TOOLTIP_GUI:SetHyperlink(raidLoot[iID].itemString)
+		GameTooltip:SetOwner(btn, "ANCHOR_CURSOR")
+		GameTooltip:SetHyperlink(raidLoot[iID].itemString)
 	end
 
 	-- Delete an item:

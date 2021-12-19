@@ -94,7 +94,7 @@ globals = {
 
 	"_G",
 	"bit",
-	"Recount",
+	"KRT_FakeTooltip",
 	-- misc custom
 	"CUSTOM_CLASS_COLORS",
 	"LibStub",
