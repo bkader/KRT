@@ -1679,7 +1679,7 @@
 				</NormalTexture>
 				<Scripts>
 					<OnEnter>KRT.Logger.Loot:OnEnter(self)</OnEnter>
-					<OnLeave>KRT_TOOLTIP_GUI:Hide()</OnLeave>
+					<OnLeave>GameTooltip:Hide()</OnLeave>
 				</Scripts>
 			</Button>
 		</Frames>
