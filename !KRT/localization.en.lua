@@ -119,6 +119,7 @@ L.StrChangesAnnounceOne  = "%s is rolling %s"
 L.StrChangesAnnounceNone = "No MS changes received!"
 L.BtnClear               = "Clear"
 L.BtnDemand              = "Demand"
+L.BtnAnnounce            = "Announce"
 L.ErrChangesNoPlayer     = "The name is required. Leaving the change empty will remove the player from the list."
 
 -- ==================== LFM Spam Frame ==================== --

@@ -1,6 +1,6 @@
 
 # KRT: Kader Raid Tools
-AddOn Version: **0.5.4n**
+AddOn Version: **0.5.6b**
 Game Version: **3.3.5a**
 
 Copyright (C) 2018 [Kader Bouyakoub](https://github.com/bkader)

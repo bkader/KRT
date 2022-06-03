@@ -111,6 +111,7 @@ L.StrChangesAnnounceOne  = "%s roule %s"
 L.StrChangesAnnounceNone = "Aucun changement MS reçu!"
 L.BtnClear               = "Effacer"
 L.BtnDemand              = "Demander"
+L.BtnAnnounce            = "Annoncer"
 L.ErrChangesNoPlayer     = "Le nom est requis. Un changement vide retirera le joueur de la liste."
 
 -- ==================== LFM Spam Frame ==================== --

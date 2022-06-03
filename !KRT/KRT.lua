@@ -20,7 +20,8 @@ KRT_NextReset    = KRT_NextReset or  0
 -- AddOn main frames:
 local mainFrame = CreateFrame("Frame")
 local UIMaster, UIConfig, UISpammer, UIChanges, UIWarnings
-local UILogger, UILoggerBossBox, UILoggerPlayerBox, UILoggerItemBox
+local UILogger, UILoggerItemBox
+-- local UILoggerBossBox, UILoggerPlayerBox
 local _
 
 local unitName = UnitName("player")
@@ -342,33 +343,35 @@ do
 		}
 		for i = 1, numRaid do
 			local name, rank, subgroup, level, classL, class, _, online = GetRaidRosterInfo(i)
-			local unitID = "raid"..tostring(i)
-			local raceL, race = UnitRace(unitID)
-			local toRaid = {
-				name     = name,
-				rank     = rank,
-				subgroup = subgroup,
-				class    = class or "UNKNOWN",
-				join     = Utils.GetCurrentTime(),
-				leave    = nil,
-			}
-			tinsert(raidInfo["players"], toRaid)
-			local toPlayers = {
-				name   = name,
-				level  = level,
-				race   = race,
-				raceL  = raceL,
-				class  = class or "UNKNOWN",
-				classL = classL,
-				sex    = UnitSex(unitID),
-			}
-			if not KRT_Players[realm] or type(KRT_Players[realm]) ~= "table" then
-				KRT_Players[realm] = {}
+			if name then
+				local unitID = "raid"..tostring(i)
+				local raceL, race = UnitRace(unitID)
+				local toRaid = {
+					name     = name,
+					rank     = rank,
+					subgroup = subgroup,
+					class    = class or "UNKNOWN",
+					join     = Utils.GetCurrentTime(),
+					leave    = nil,
+				}
+				tinsert(raidInfo["players"], toRaid)
+				local toPlayers = {
+					name   = name,
+					level  = level,
+					race   = race,
+					raceL  = raceL,
+					class  = class or "UNKNOWN",
+					classL = classL,
+					sex    = UnitSex(unitID),
+				}
+				if not KRT_Players[realm] or type(KRT_Players[realm]) ~= "table" then
+					KRT_Players[realm] = {}
+				end
+				if not KRT_Players[realm][name] or type(KRT_Players[realm][name]) ~= "table" then
+					KRT_Players[realm][name] = {}
+				end
+				KRT_Players[realm][name] = toPlayers
 			end
-			if not KRT_Players[realm][name] or type(KRT_Players[realm][name]) ~= "table" then
-				KRT_Players[realm][name] = {}
-			end
-			KRT_Players[realm][name] = toPlayers
 		end
 		tinsert(KRT_Raids, raidInfo)
 		KRT_CurrentRaid = #KRT_Raids
@@ -1457,7 +1460,7 @@ do
 		local num = tip:NumLines()
 		for i = num, 1, -1 do
 			local t = _G["KRT_FakeTooltipTextLeft"..i]:GetText()
-			if t:startsWith(strsub(BIND_TRADE_TIME_REMAINING, 1, -25)) then
+			if deformat(t, BIND_TRADE_TIME_REMAINING) ~= nil then
 				return false
 			elseif t == ITEM_SOULBOUND then
 				return true
@@ -2739,7 +2742,7 @@ do
 			_G[frameName.."AddBtn"]:SetText(ADD)
 			_G[frameName.."EditBtn"]:SetText(L.BtnEdit)
 			_G[frameName.."DemandBtn"]:SetText(L.BtnDemand)
-			_G[frameName.."AnnounceBtn"]:SetText(L.BtnSpamChanges)
+			_G[frameName.."AnnounceBtn"]:SetText(L.BtnAnnounce)
 		end
 		_G[frameName.."Title"]:SetText(format(titleString, L.StrChanges))
 		_G[frameName.."Name"]:SetScript("OnEnterPressed", Changes.Edit)
@@ -4499,7 +4502,7 @@ do
 	local updateInterval = 0.1
 	local CancelAddEdit
 	local selectedRaid, selectedBoss
-	local isAdd = false
+	-- local isAdd = false
 	local isEdit = false
 
 	local raidData = {}
@@ -4510,7 +4513,7 @@ do
 	function BossBox:OnLoad(frame)
 		if not frame then return end
 		UIFrame = frame
-		UILoggerBossBox = frame
+		-- UILoggerBossBox = frame
 		frameName = frame:GetName()
 		frame:RegisterForDrag("LeftButton")
 		frame:SetScript("OnUpdate", UpdateUIFrame)
@@ -4613,7 +4616,7 @@ do
 		_G[frameName.."Difficulty"]:SetText("")
 		_G[frameName.."Time"]:SetText("")
 		isEdit = false
-		isAdd = false
+		-- isAdd = false
 	end
 
 	function LocalizeUIFrame()
@@ -4670,7 +4673,7 @@ do
 	function AttendeesBox:OnLoad(frame)
 		if not frame then return end
 		UIFrame = frame
-		UILoggerPlayerBox = frame
+		-- UILoggerPlayerBox = frame
 		frameName = frame:GetName()
 		frame:RegisterForDrag("LeftButton")
 		frame:SetScript("OnUpdate", UpdateUIFrame)

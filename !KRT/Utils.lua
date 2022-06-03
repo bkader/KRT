@@ -273,7 +273,7 @@ function Utils.bool2str(bool)
 	return bool and "true" or "false"
 end
 function Utils.str2bool(str)
-	return not (str == "false")
+	return (str ~= "false")
 end
 
 -- Number <> Boolean conversion:
@@ -281,7 +281,7 @@ function Utils.bool2num(bool)
 	return bool and 1 or 0
 end
 function Utils.num2bool(num)
-	return not (num == 0)
+	return (num ~= 0)
 end
 
 -- Convert seconds to readable clock string:
