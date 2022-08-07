@@ -2,7 +2,7 @@
 ## Title: !|cfff58cbaK|r|caaf49141RaidTools|r
 ## Notes: |cfff58cbaKader|r|caaf49141RaidTools|r makes the raid leader's life easier.
 ## Notes-frFR: |cff69ccf0Kader|r|caaf49141RaidTools|r facilite la vie du chef de raid.
-## Author: Kader (|cff808080bkader#6361|r)
+## Author: Kader (|cff808080bkader#5341|r)
 ## DefaultState: enabled
 ## SavedVariables: KRT_Options, KRT_Raids, KRT_Players, KRT_CurrentRaid, KRT_LastBoss, KRT_NextReset, KRT_Warnings, KRT_Spammer, KRT_ExportString
 ## Version: 0.5.6b
