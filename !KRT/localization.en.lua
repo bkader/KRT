@@ -123,6 +123,9 @@ L.TooltipQueryItemHelp2 = "|cffff0000Warning: May cause a temporary disconnect!|
 L.StrQueryingItemInitiated = "Attempting to retrieve info for ItemID: %s. You might be disconnected!"
 L.StrQueryingItemSuccess = "Successfully retrieved item information for %s."
 L.StrReserveListCleared = "Reserve list cleared."
+L.StrReserveListTitle = "Reserve List"
+L.BtnClose = "Close"
+L.BtnClearReserves = "Clear Reserves"
 
 -- ==================== Raid Warnings Frame ==================== --
 L.StrMessage            = "Message"

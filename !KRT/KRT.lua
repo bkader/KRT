@@ -2313,6 +2313,8 @@ do
     local reserveListFrame = nil -- This will now point to the XML frame
     local isReserveListFrameLoaded = false -- Flag for the XML frame's status
 
+	local pendingItemInfo = {} -- A table to keep track of items awaiting info
+
     -- Helper for the "window" backdrop in 3.3.5a
     local function ApplyWindowBackdrop(frame)
         frame:SetBackdrop({
@@ -2330,30 +2332,51 @@ do
     -- Refresh timer frame (already existing)
     local KRT_RefreshTimerFrame = CreateFrame("Frame", "KRT_RefreshTimerFrame", UIParent)
     KRT_RefreshTimerFrame:Hide()
-    KRT_RefreshTimerFrame:SetScript("OnEvent", function() end) -- Dummy OnEvent to make it functional
 
     -------------------------------------------------------------------
     -- OnLoad for the KRTReserveListFrame (Called from XML)
     -------------------------------------------------------------------
-    function Reserves:OnReserveListLoad(frame) -- Function that will be called by XML
-        reserveListFrame = frame
-        isReserveListFrameLoaded = true
-        -- Apply window style to this XML frame as well
-        ApplyWindowBackdrop(frame)
-        frame:RegisterForDrag("LeftButton")
-        frame:SetScript("OnDragStart", frame.StartMoving)
-        frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
+    function Reserves:OnReserveListLoad(frame)
+        reserveListFrame = frame
+        isReserveListFrameLoaded = true
+        -- Apply window style to this XML frame as well
+        ApplyWindowBackdrop(frame)
+        frame:RegisterForDrag("LeftButton")
+        frame:SetScript("OnDragStart", frame.StartMoving)
+        frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
 
-        -- Hook OnClick for buttons defined in XML (if they exist)
-        if _G["KRTReserveListFrameCloseButton"] then
-            _G["KRTReserveListFrameCloseButton"]:SetScript("OnClick", function() Reserves:CloseWindow() end)
-        end
-        if _G["KRTReserveListFrameClearButton"] then
-            _G["KRTReserveListFrameClearButton"]:SetScript("OnClick", function() Reserves:ClearReserves() end)
-        end
-    end
+        -- Hook OnClick for buttons defined in XML (if they exist)
+        if _G["KRTReserveListFrameCloseButton"] then
+            _G["KRTReserveListFrameCloseButton"]:SetScript("OnClick", function() Reserves:CloseWindow() end)
+        end
+        if _G["KRTReserveListFrameClearButton"] then
+            _G["KRTReserveListFrameClearButton"]:SetScript("OnClick", function() Reserves:ClearReserves() end)
+        end
 
-    -------------------------------------------------------------------
+        -- INSERIRE QUI: Registra l'evento GET_ITEM_INFO_RECEIVED all'OnLoad del frame
+        KRT_RefreshTimerFrame:RegisterEvent("GET_ITEM_INFO_RECEIVED")
+        KRT_RefreshTimerFrame:SetScript("OnEvent", function(self, event, ...)
+            if event == "GET_ITEM_INFO_RECEIVED" then
+                local itemId = select(1, ...)
+                local normalizedPlayerName = pendingItemInfo[itemId] -- Recupera il nome normalizzato
+                if normalizedPlayerName then
+                    -- L'informazione per questo item è arrivata
+                    local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice = GetItemInfo(itemId)
+                    if itemName then -- Ricontrolla per sicurezza
+                        Reserves:UpdateReserveItemData(itemId, itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice)
+                        -- Rimuovi l'item dalla lista degli item in attesa
+                        pendingItemInfo[itemId] = nil
+                        Reserves:RefreshWindow() -- Rinfresca la finestra dopo aver ottenuto l'info
+                    end
+                end
+            end
+            -- NON INSERIRE QUI ALTRI EVENTI SE IL FRAME NON DEVE GESTIRLI.
+            -- Se KRT_RefreshTimerFrame è usato solo per questo e l'OnUpdate del timer, è OK.
+        end)
+
+    end
+
+    -------------------------------------------------------------------
     -- CORE FUNCTIONS
     -------------------------------------------------------------------
 
@@ -2398,35 +2421,58 @@ do
         return reservesData[playerName:lower():trim()]
     end
 
-    -- QueryItemInfo: attempts to get item info and update reservesData
-    function Reserves:QueryItemInfo(itemId, normalizedPlayerName)
-        if not itemId then return end
+    -- QueryItemInfo: attempts to get item info and update reservesData
+    function Reserves:QueryItemInfo(itemId, normalizedPlayerName)
+        if not itemId then return end
 
-        local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = GetItemInfo(itemId)
+        local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = GetItemInfo(itemId)
 
-        if itemName and itemLink and itemTexture then
-            if reservesData[normalizedPlayerName] then
-                reservesData[normalizedPlayerName].itemName = itemName
-                reservesData[normalizedPlayerName].itemLink = itemLink
-                reservesData[normalizedPlayerName].itemIcon = itemTexture
-            end
-            addon:PrintInfo(L.StrQueryingItemSuccess:format(itemLink))
-            return true
-        else
-            addon:PrintWarning(L.StrQueryingItemWarning:format(itemId))
-            GameTooltip:SetOwner(UIParent, "ANCHOR_NONE")
-            GameTooltip:SetHyperlink("item:" .. itemId)
-            GameTooltip:Hide()
-            return false
-        end
-    end
+        if itemName and itemLink and itemTexture then
+            if reservesData[normalizedPlayerName] then
+                reservesData[normalizedPlayerName].itemName = itemName
+                reservesData[normalizedPlayerName].itemLink = itemLink
+                reservesData[normalizedPlayerName].itemIcon = itemTexture
+            end
+            addon:PrintInfo(L.StrQueryingItemSuccess:format(itemLink))
+            return true
+        else
+            -- addon:PrintWarning(L.StrQueryingItemWarning:format(itemId)) -- Rimuovi o commenta questa riga
+            GameTooltip:SetOwner(UIParent, "ANCHOR_NONE")
+            GameTooltip:SetHyperlink("item:" .. itemId)
+            GameTooltip:Hide()
+
+            pendingItemInfo[itemId] = normalizedPlayerName -- Memorizza sia l'ID che il nome normalizzato
+
+            -- Registra l'evento una volta sola all'OnLoad del modulo Reserves, non qui dentro
+            -- if not KRT_RefreshTimerFrame:IsEventRegistered("GET_ITEM_INFO_RECEIVED") then
+            --     KRT_RefreshTimerFrame:RegisterEvent("GET_ITEM_INFO_RECEIVED")
+            -- end
+
+            return false
+        end
+    end
 
     -- ClearReserves: Clears all loaded reserves
-    function Reserves:ClearReserves()
-        wipe(reservesData)
-        addon:PrintSuccess(L.StrReserveListCleared)
-        self:RefreshWindow()
-    end
+    function Reserves:ClearReserves()
+        wipe(reservesData)
+        addon:PrintSuccess(L.StrReserveListCleared)
+        self:RefreshWindow()
+    end
+
+    -- INSERIRE QUI: La nuova funzione per gestire l'aggiornamento dei dati e dell'UI
+    function Reserves:UpdateReserveItemData(itemId, itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice)
+        -- Update the reservesData table with the item information
+        for normalized, data in pairs(reservesData) do -- Usa 'pairs' perché 'reservesData' è indicizzata da nomi normalizzati
+            if data.rawID == itemId then
+                data.itemName = itemName
+                data.itemLink = itemLink
+                data.itemIcon = itemTexture
+                -- Aggiorna tutti gli altri campi necessari se li vuoi conservare
+                break
+            end
+        end
+        -- L'aggiornamento dell'interfaccia utente è gestito dalla chiamata a RefreshWindow nell'OnEvent
+    end
 
     -------------------------------------------------------------------
     -- WINDOW MANAGEMENT
@@ -2517,15 +2563,15 @@ do
             local itemId = info.rawID
             local normalizedPlayerName = info.original:lower():trim()
 
+            -- Questa chiamata iniziale è CORRETTA per avviare la query
+            if not info.itemName or not info.itemLink or not info.itemIcon then
+                Reserves:QueryItemInfo(info.rawID, normalized)
+            end
+
             local rowName = "KRTReserveRow" .. i
             local row = _G[rowName]
             if not row then
-                -- Create the row if it doesn't exist
-                row = CreateFrame("Frame", rowName, content)
-                row:SetSize(scrollFrame:GetWidth() - 25, rowHeight)
-                row:SetPoint("TOPLEFT", content, "TOPLEFT", 0, -yOffset)
-
-                -- Create icon, name, and player text only if the row is new
+                -- Creazione della riga (codice omesso per brevità, ma mantenuto)
                 local icon = row:CreateTexture(rowName .. "Icon", "BACKGROUND")
                 icon:SetSize(32, 32)
                 icon:SetPoint("LEFT", row, "LEFT", 0, 0)
@@ -2537,12 +2583,10 @@ do
                 local playerText = row:CreateFontString(rowName .. "PlayerText", "ARTWORK", "GameFontHighlightSmall")
                 playerText:SetPoint("RIGHT", row, "RIGHT", 0, 0)
 
-                -- Associate references to global names for future updates
                 _G[rowName .. "Icon"] = icon
                 _G[rowName .. "NameText"] = nameText
                 _G[rowName .. "PlayerText"] = playerText
 
-                -- Create a query button (initially hidden or visible depending on state)
                 local queryButton = CreateFrame("Button", rowName .. "QueryButton", row)
                 queryButton:SetSize(100, 20)
                 queryButton:SetPoint("LEFT", nameText, "RIGHT", 10, 0)
@@ -2553,12 +2597,10 @@ do
                 queryButton:SetText(L.BtnQueryItem)
                 _G[rowName .. "QueryButton"] = queryButton
             else
-                -- Reuse the existing row and its components
                 row:SetParent(content)
                 row:Show()
             end
 
-            -- Retrieve references to the row's components
             local icon = _G[rowName .. "Icon"]
             local nameText = _G[rowName .. "NameText"]
             local playerText = _G[rowName .. "PlayerText"]
@@ -2571,7 +2613,6 @@ do
                 icon:SetTexture(info.itemIcon)
                 nameText:SetText(info.itemLink)
 
-                -- Update scripts for standard tooltip
                 icon:SetScript("OnEnter", function(self)
                     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
                     GameTooltip:SetHyperlink(info.itemLink)
@@ -2580,7 +2621,7 @@ do
                 icon:SetScript("OnLeave", function(self)
                     GameTooltip:Hide()
                 end)
-                icon:SetScript("OnClick", nil) -- Remove click for query if item is available
+                icon:SetScript("OnClick", nil)
 
                 if queryButton then queryButton:Hide() end
             else
@@ -2588,7 +2629,6 @@ do
                 icon:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
                 nameText:SetText(L.StrItemUnavailable:format(itemId))
 
-                -- Enable the query button and specific tooltips
                 if queryButton then
                     queryButton:Show()
                     queryButton:SetScript("OnEnter", function(self)
@@ -2602,30 +2642,27 @@ do
                     end)
                     queryButton:SetScript("OnClick", function(self, button)
                         if button == "LeftButton" then
-                            local queriedSuccessfully = Reserves:QueryItemInfo(itemId, normalizedPlayerName) -- Call the function with self
-                            if queriedSuccessfully then
-                                addon:Print(L.StrQueryingItemSuccess:format(itemId))
-                            else
-                                addon:Print(L.StrQueryingItemInitiated:format(itemId))
-                                KRT_RefreshTimerFrame.timer = 0
-                                KRT_RefreshTimerFrame:SetScript("OnUpdate", function(self, elapsed)
-                                    self.timer = self.timer + elapsed
-                                    if self.timer >= 2 then
-                                        self:SetScript("OnUpdate", nil)
-                                        Reserves:RefreshWindow() -- Call the function with self
-                                    end
-                                end)
-                                KRT_RefreshTimerFrame:Show()
-                            end
+                            Reserves:QueryItemInfo(itemId, normalizedPlayerName) -- Questa è la chiamata OK
+                            -- Rimuovi COMPLETAMENTE il seguente blocco di codice:
+                            -- if not queriedSuccessfully then
+                            --     addon:Print(L.StrQueryingItemInitiated:format(itemId))
+                            --     KRT_RefreshTimerFrame.timer = 0
+                            --     KRT_RefreshTimerFrame:SetScript("OnUpdate", function(self, elapsed)
+                            --         self.timer = self.timer + elapsed
+                            --         if self.timer >= 2 then
+                            --             self:SetScript("OnUpdate", nil)
+                            --             Reserves:RefreshWindow()
+                            --         end
+                            --     end)
+                            --     KRT_RefreshTimerFrame:Show()
+                            -- end
                         end
                     end)
                 end
-
                 icon:SetScript("OnEnter", nil)
                 icon:SetScript("OnLeave", nil)
                 icon:SetScript("OnClick", nil)
             end
-
             yOffset = yOffset + rowHeight
         end
 

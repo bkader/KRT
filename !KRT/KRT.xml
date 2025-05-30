@@ -1277,6 +1277,46 @@
 	</Frame>
 	<!-- ====== End of Changes ====== -->
 
+	<!-- ====== Start of Reserve ====== -->
+	<Frame name="KRTReserveListFrame" inherits="KRTFrameTemplate" toplevel="true" hidden="true" frameStrata="MEDIUM">
+        <Size><AbsDimension x="380" y="400" /></Size>
+        <Anchors><Anchor point="CENTER"/></Anchors>
+        <Layers>
+            <Layer level="ARTWORK">
+                <FontString name="$parentTitle" inherits="GameFontNormalLarge" text="Elenco Riserve">
+                    <Anchors><Anchor point="TOP" relativePoint="TOP"><Offset><AbsDimension x="0" y="-12" /></Offset></Anchor></Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Button name="$parentCloseButton" inherits="UIPanelButtonTemplate" text="Chiudi">
+                <Size><AbsDimension x="80" y="22" /></Size>
+                <Anchors><Anchor point="TOPRIGHT" relativePoint="TOPRIGHT"><Offset><AbsDimension x="-15" y="-15" /></Offset></Anchor></Anchors>
+                </Button>
+            <Button name="$parentClearButton" inherits="UIPanelButtonTemplate" text="Clear Reserves">
+                <Size><AbsDimension x="100" y="24" /></Size>
+                <Anchors><Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT"><Offset><AbsDimension x="16" y="10" /></Offset></Anchor></Anchors>
+                </Button>
+
+            <ScrollFrame name="$parentScrollFrame" inherits="KRTScrolLFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT">
+                        <Offset><AbsDimension x="16" y="-40" /></Offset>
+                    </Anchor>
+                    <Anchor point="BOTTOMRIGHT">
+                        <Offset><AbsDimension x="-32" y="40" /></Offset>
+                    </Anchor>
+                </Anchors>
+            </ScrollFrame>
+        </Frames>
+        <Scripts>
+            <OnLoad>KRT.Reserves:OnReserveListLoad(self)</OnLoad>
+            <OnDragStart>self:StartMoving()</OnDragStart>
+            <OnDragStop>self:StopMovingOrSizing()</OnDragStop>
+        </Scripts>
+    </Frame>
+	<!-- ====== End of Reserve ====== -->
+
 	<!-- ====== Start of Loot Bans Frame ====== -->
 	<!-- ====== End of Loot Bans Frame ====== -->
 
