@@ -486,11 +486,11 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="$parentLength" inherits="KRTFontStringGray" text="0/255" justifyH="RIGHT" justifyV="TOP">
+				<FontString name="$parentLength" inherits="KRTFontStringGray" text="0/255" justifyH="RIGHT" justifyV="MIDDLE">
 					<Size><AbsDimension x="55" y="18" /></Size>
 					<Anchors>
 						<Anchor point="TOPRIGHT" >
-							<Offset><AbsDimension x="-15" y="-305" /></Offset>
+							<Offset><AbsDimension x="-15" y="-298" /></Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
