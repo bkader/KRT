@@ -4,7 +4,7 @@ local Utils = addon.Utils
 
 local _G = _G
 _G["KRT"] = addon
-
+local GAME_LOCALE = GetLocale()
 
 -- SavedVariables:
 KRT_Options      = KRT_Options or {}
@@ -1703,7 +1703,7 @@ do
 	-- Localizing ui frame:
 	function LocalizeUIFrame()
 		if localized then return end
-		if GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
+		if GAME_LOCALE ~= "enUS" and GAME_LOCALE ~= "enGB" then
 			_G[frameName.."ConfigBtn"]:SetText(L.BtnConfigure)
 			_G[frameName.."SelectItemBtn"]:SetText(L.BtnSelectItem)
 			_G[frameName.."SpamLootBtn"]:SetText(L.BtnSpamLoot)
@@ -2290,7 +2290,7 @@ do
 	-- Localizing ui frame:
 	function LocalizeUIFrame()
 		if localized then return end
-		if GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
+		if GAME_LOCALE ~= "enUS" and GAME_LOCALE ~= "enGB" then
 			_G[frameName.."sortAscendingStr"]:SetText(L.StrConfigSortAscending)
 			_G[frameName.."useRaidWarningStr"]:SetText(L.StrConfigUseRaidWarning)
 			_G[frameName.."announceOnWinStr"]:SetText(L.StrConfigAnnounceOnWin)
@@ -2465,7 +2465,7 @@ do
 	-- Localizing UI frame:
 	function LocalizeUIFrame()
 		if localized then return end
-		if GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
+		if GAME_LOCALE ~= "enUS" and GAME_LOCALE ~= "enGB" then
 			_G[frameName.."MessageStr"]:SetText(L.StrMessage)
 			_G[frameName.."EditBtn"]:SetText(SAVE)
 			_G[frameName.."OutputName"]:SetText(L.StrWarningsHelp)
@@ -2737,7 +2737,7 @@ do
 	-- Localize UI Frame:
 	function LocalizeUIFrame()
 		if localized then return end
-		if GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
+		if GAME_LOCALE ~= "enUS" and GAME_LOCALE ~= "enGB" then
 			_G[frameName.."ClearBtn"]:SetText(L.BtnClear)
 			_G[frameName.."AddBtn"]:SetText(ADD)
 			_G[frameName.."EditBtn"]:SetText(L.BtnEdit)
@@ -3012,7 +3012,7 @@ do
 	-- Localizing ui frame:
 	function LocalizeUIFrame()
 		if localized then return end
-		if GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
+		if GAME_LOCALE ~= "enUS" and GAME_LOCALE ~= "enGB" then
 			_G[frameName.."CompStr"]:SetText(L.StrSpammerCompStr)
 			_G[frameName.."NeedStr"]:SetText(L.StrSpammerNeedStr)
 			_G[frameName.."MessageStr"]:SetText(L.StrSpammerMessageStr)
@@ -3492,7 +3492,7 @@ do
 	-- Localizing frame:
 	function LocalizeUIFrame()
 		if localized then return end
-		if GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
+		if GAME_LOCALE ~= "enUS" and GAME_LOCALE ~= "enGB" then
 			_G[frameName.."Title"]:SetText(L.StrRaidsList)
 			_G[frameName.."HeaderDate"]:SetText(L.StrDate)
 			_G[frameName.."HeaderSize"]:SetText(L.StrSize)
@@ -3709,7 +3709,7 @@ do
 	-- Localizing frame:
 	function LocalizeUIFrame()
 		if localized then return end
-		if GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
+		if GAME_LOCALE ~= "enUS" and GAME_LOCALE ~= "enGB" then
 			_G[frameName.."Title"]:SetText(L.StrBosses)
 			_G[frameName.."HeaderTime"]:SetText(L.StrTime)
 		end
@@ -3914,7 +3914,7 @@ do
 	-- Localizing frame:
 	function LocalizeUIFrame()
 		if localized then return end
-		if GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
+		if GAME_LOCALE ~= "enUS" and GAME_LOCALE ~= "enGB" then
 			_G[frameName.."Title"]:SetText(L.StrBossAttendees)
 		end
 		localized = true
@@ -4085,7 +4085,7 @@ do
 	-- Localizing frame:
 	function LocalizeUIFrame()
 		if localized then return end
-		if GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
+		if GAME_LOCALE ~= "enUS" and GAME_LOCALE ~= "enGB" then
 			_G[frameName.."Title"]:SetText(L.StrRaidAttendees)
 			_G[frameName.."HeaderJoin"]:SetText(L.StrJoin)
 			_G[frameName.."HeaderLeave"]:SetText(L.StrLeave)
@@ -4270,7 +4270,7 @@ do
 	-- Localizing frame:
 	function LocalizeUIFrame()
 		if localized then return end
-		if GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
+		if GAME_LOCALE ~= "enUS" and GAME_LOCALE ~= "enGB" then
 			_G[frameName.."Title"]:SetText(L.StrRaidLoot)
 			_G[frameName.."ExportBtn"]:SetText(L.BtnExport)
 			_G[frameName.."ClearBtn"]:SetText(L.BtnClear)
@@ -4621,7 +4621,7 @@ do
 
 	function LocalizeUIFrame()
 		if localized then return end
-		if GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
+		if GAME_LOCALE ~= "enUS" and GAME_LOCALE ~= "enGB" then
 			_G[frameName.."Title"]:SetText(L.StrAddBoss)
 		end
 		-- Help tooltips:
@@ -4655,7 +4655,7 @@ do
 
 	local function LocalizeUIFrame()
 		if not localized then
-			if GetLocale() ~= "enUS" and GetLocale() then
+			if GAME_LOCALE ~= "enUS" and GAME_LOCALE then
 				_G[frameName.."Title"]:SetText(L.StrAddPlayer)
 			end
 			localized = true
