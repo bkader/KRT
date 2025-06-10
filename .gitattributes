@@ -5,8 +5,11 @@
 .travis.yml         export-ignore
 .editorconfig       export-ignore
 README.md           export-ignore
+CHANGELOG.md        export-ignore
+CITATION.cff        export-ignore
 
 * text=auto
+*.* text eol=lf
 
 # GitHub
 .github         text
@@ -27,5 +30,7 @@ README.md           export-ignore
 *.wav           binary
 
 # Textures
+*.jpg           binary
+*.png           binary
 *.blp           binary
 *.tga           binary
