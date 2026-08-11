@@ -1,13 +1,23 @@
 ## Interface: 30300
 ## Title: !|cfff58cbaK|r|caaf49141RaidTools|r
 ## Notes: |cfff58cbaKader|r|caaf49141RaidTools|r makes the raid leader's life easier.
-## Notes-frFR: |cff69ccf0Kader|r|caaf49141RaidTools|r facilite la vie du chef de raid.
-## Author: Kader (|cff808080bkader#5341|r)
-## DefaultState: enabled
+## Notes-deDE: |cfff58cbaKader|r|caaf49141RaidTools|r macht das Leben des Raid-Leiters einfacher.
+## Notes-esES: |cfff58cbaKader|r|caaf49141RaidTools|r facilita la vida del líder de la incursión.
+## Notes-esMX: |cfff58cbaKader|r|caaf49141RaidTools|r facilita la vida del líder de la incursión.
+## Notes-frFR: |cfff58cbaKader|r|caaf49141RaidTools|r facilite la vie du chef de raid.
+## Notes-koKR: |cfff58cbaKader|r|caaf49141RaidTools|r 공격대장의 업무를 훨씬 수월하게 만들어 줍니다.
+## Notes-ruRU: |cfff58cbaKader|r|caaf49141RaidTools|r облегчает жизнь лидеру рейда.
+## Notes-zhCN: |cfff58cbaKader|r|caaf49141RaidTools|r 让团队领袖的工作更轻松。
+## Notes-zhTW: |cfff58cbaKader|r|caaf49141RaidTools|r 讓團隊領袖的工作更輕鬆。
+## LoadOnDemand: 0
 ## SavedVariables: KRT_Options, KRT_Raids, KRT_Players, KRT_CurrentRaid, KRT_LastBoss, KRT_NextReset, KRT_Warnings, KRT_Spammer, KRT_ExportString
-## Version: 0.5.6b
-## X-Date: 2022-06-03 @ 11:10 PM |cff808080UTC|r
+## DefaultState: enabled
+## Author: Kader B. (|cff808080bkader|r)
+## Version: 0.6.0
+## X-Date: 2026-08-11 @ 02:22 AM |cff808080UTC|r
+## X-Credits: Angel0uss, and other contributors
 ## X-Category: Raid, Inventory
+## X-Curse-Project-ID: 340961
 ## X-License: MIT/X
 ## X-Email: bkader@mail.com
 ## X-Website: https://github.com/bkader/KRT

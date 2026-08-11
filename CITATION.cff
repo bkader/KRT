@@ -1,10 +1,9 @@
 cff-version: 1.2.0
-message: "If you use this addon, please cite it as below."
+message: "If you use this addon, please cite it using the metadata below."
 authors:
-  - family-names: "Bouyakoub"
-    given-names: "Kader"
-    orcid: "https://orcid.org/0000-0002-1184-8061"
+- given-names: "Kader"
+  family-names: "Bouyakoub"
+  orcid: "https://orcid.org/0000-0002-1184-8061"
 title: "KRT: Kader Raid Tools"
-version: 0.5.6b
-date-released: 2022-08-07
-url: "https://github.com/bkader/KRT"
+date-released: "2022-08-07"
+repository-code: "https://github.com/bkader/KRT"
