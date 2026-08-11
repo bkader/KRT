@@ -2962,13 +2962,13 @@ do
 		end
 		addon:Announce(L.StrChangesDemand)
 		listening = true
-		addon:Print("Now capturing MS changes from raid chat. Use /krt ms stop when done.", "KRT")
+		addon:Print("Now capturing MS changes from raid chat. Use \"/krt ms stop\" when done.", "KRT")
 	end
 
 	-- Manually close the capture window (opened by Demand):
 	function Changes:StopListening()
 		listening = false
-		addon:Announce("MS change closed")
+		addon:Announce("MS change closed!")
 	end
 
 	-- Same button toggles Demand/Stop depending on current state:
@@ -3442,10 +3442,16 @@ do
 
 		-- Uncheck all channel boxes first, then re-check the preset's ones:
 		for i = 1, 8 do
-			if _G[frameName.."Chat"..i] then _G[frameName.."Chat"..i]:SetChecked(false) end
+			if _G[frameName.."Chat"..i] then
+				_G[frameName.."Chat"..i]:SetChecked(false)
+			end
 		end
-		if _G[frameName.."ChatGuild"] then _G[frameName.."ChatGuild"]:SetChecked(false) end
-		if _G[frameName.."ChatYell"] then _G[frameName.."ChatYell"]:SetChecked(false) end
+		if _G[frameName.."ChatGuild"] then
+			_G[frameName.."ChatGuild"]:SetChecked(false)
+		end
+		if _G[frameName.."ChatYell"] then
+			_G[frameName.."ChatYell"]:SetChecked(false)
+		end
 
 		for _, k in ipairs(presetFields) do
 			KRT_Spammer[k] = preset[k]
@@ -3457,6 +3463,7 @@ do
 		KRT_Spammer.Channels = channels
 
 		loaded = false -- forces UpdateUIFrame to re-populate every box next tick
+		addon:Print("Preset \""..name.."\" loaded.", "KRT")
 	end
 
 	-- Delete a named preset:
@@ -3571,19 +3578,22 @@ do
 		local link
 		if result.kind == "quest" then
 			link = GetQuestLink(result.id)
+			if not link then
+				addon:PrintError("Couldn't get a link for quest "..result.id..".")
+			end
 		else
-			link = GetAchievementLink(result.id)
+			-- We do not need to get achievement link here because
+			-- FindAchievement will attempt to parse it later for
+			-- the preview message. We only need to insert it in
+			-- the format the function expects: {ID}.
+			link = "{"..result.id.."}"
 		end
-		if link then
-			msgBox:Insert(link)
-			-- Sync the saved value immediately: Insert() doesn't trigger
-			-- Save(), so without this the next periodic UI refresh would
-			-- overwrite the box with the stale pre-insert text the moment
-			-- any other field loses focus:
-			KRT_Spammer.Message = msgBox:GetText():gsub("\n", " "):trim()
-		else
-			addon:PrintError("Couldn't get a link for that "..result.kind..".")
-		end
+		msgBox:Insert(link)
+		-- Sync the saved value immediately: Insert() doesn't trigger
+		-- Save(), so without this the next periodic UI refresh would
+		-- overwrite the box with the stale pre-insert text the moment
+		-- any other field loses focus:
+		KRT_Spammer.Message = msgBox:GetText():gsub("\n", " "):trim()
 	end
 
 	local achvSearchFrame
@@ -3802,6 +3812,7 @@ do
 		if out and out ~= "" and find(out, "%{%d*%}") then
 			local b, e = find(out, "%{%d*%}")
 			local id = strsub(out, b+1, e-1)
+			local link
 			if not id or id == "" or not GetAchievementLink(id) then
 				link = "["..id.."]"
 			else
