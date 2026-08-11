@@ -276,7 +276,7 @@
 	</CheckButton>
 	<!-- The Frame: LFM Spam -->
 	<Frame name="KRTSpammer" inherits="KRTFrameTemplate">
-		<Size><AbsDimension x="260" y="380" /></Size>
+		<Size><AbsDimension x="260" y="520" /></Size>
 		<Layers>
 			<Layer level="ARTWORK">
 				<FontString name="$parentNameStr" text="RAID" inherits="GameFontNormalSmall" justifyH="LEFT" justifyV="BOTTOM">
@@ -290,8 +290,8 @@
 				<FontString name="$parentDurationStr" text="AUCTION_DURATION" inherits="GameFontNormalSmall" justifyH="LEFT" justifyV="BOTTOM">
 					<Size><AbsDimension x="85" y="10" /></Size>
 					<Anchors>
-						<Anchor point="TOPRIGHT">
-							<Offset><AbsDimension x="-55" y="-35" /></Offset>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="115" y="-35" /></Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -299,7 +299,7 @@
 					<Size><AbsDimension x="30" y="10" /></Size>
 					<Anchors>
 						<Anchor point="TOPRIGHT">
-							<Offset><AbsDimension x="-15" y="-35" /></Offset>
+							<Offset><AbsDimension x="-25" y="-35" /></Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -315,28 +315,22 @@
 					</Anchors>
 				</FontString>
 				<FontString name="$parentNeedStr" text="NEED" inherits="KRTFontStringGray" justifyH="CENTER" justifyV="BOTTOM">
-					<Size><AbsDimension x="105" y="10" /></Size>
+					<Size><AbsDimension x="25" y="10" /></Size>
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset><AbsDimension x="85" y="-105" /></Offset>
-						</Anchor>
-						<Anchor point="TOPRIGHT">
-							<Offset><AbsDimension x="-140" y="-105" /></Offset>
+							<Offset><AbsDimension x="90" y="-105" /></Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
 				<FontString name="$parentClassStr" text="CLASS" inherits="KRTFontStringGray" justifyH="LEFT" justifyV="BOTTOM">
-					<Size><AbsDimension x="105" y="10" /></Size>
+					<Size><AbsDimension x="100" y="10" /></Size>
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset><AbsDimension x="130" y="-105" /></Offset>
-						</Anchor>
-						<Anchor point="TOPRIGHT">
-							<Offset><AbsDimension x="0" y="-105" /></Offset>
+							<Offset><AbsDimension x="135" y="-105" /></Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="$parentTanksStr" text="TANK" inherits="GameFontNormalSmall" justifyH="RIGHT" justifyV="BOTTOM">
+				<FontString name="$parentTanksStr" text="TANK" inherits="GameFontNormalSmall" justifyH="LEFT" justifyV="BOTTOM">
 					<Size><AbsDimension x="55" y="18" /></Size>
 					<Anchors>
 						<Anchor point="TOPLEFT">
@@ -344,7 +338,7 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="$parentHealersStr" text="HEALER" inherits="GameFontNormalSmall" justifyH="RIGHT" justifyV="BOTTOM">
+				<FontString name="$parentHealersStr" text="HEALER" inherits="GameFontNormalSmall" justifyH="LEFT" justifyV="BOTTOM">
 					<Size><AbsDimension x="55" y="18" /></Size>
 					<Anchors>
 						<Anchor point="TOPLEFT" relativeTo="$parentTanksStr" relativePoint="BOTTOMLEFT">
@@ -352,7 +346,7 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="$parentMeleesStr" text="MELEE" inherits="GameFontNormalSmall" justifyH="RIGHT" justifyV="BOTTOM">
+				<FontString name="$parentMeleesStr" text="MELEE" inherits="GameFontNormalSmall" justifyH="LEFT" justifyV="BOTTOM">
 					<Size><AbsDimension x="55" y="18" /></Size>
 					<Anchors>
 						<Anchor point="TOPLEFT" relativeTo="$parentHealersStr" relativePoint="BOTTOMLEFT">
@@ -360,7 +354,7 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="$parentRangedStr" text="RANGED" inherits="GameFontNormalSmall" justifyH="RIGHT" justifyV="BOTTOM">
+				<FontString name="$parentRangedStr" text="RANGED" inherits="GameFontNormalSmall" justifyH="LEFT" justifyV="BOTTOM">
 					<Size><AbsDimension x="55" y="18" /></Size>
 					<Anchors>
 						<Anchor point="TOPLEFT" relativeTo="$parentMeleesStr" relativePoint="BOTTOMLEFT">
@@ -368,129 +362,53 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="$parentMessageStr" inherits="GameFontNormalSmall" text="Message" justifyH="RIGHT" justifyV="BOTTOM">
-					<Size><AbsDimension x="55" y="18" /></Size>
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parentRangedStr" relativePoint="BOTTOMLEFT">
-							<Offset><AbsDimension x="0" y="-10" /></Offset>
-						</Anchor>
-					</Anchors>
+				<FontString name="$parentMessageStr" inherits="GameFontNormalSmall" text="Message" justifyH="LEFT" justifyV="BOTTOM">
+					<Size><AbsDimension x="100" y="14" /></Size>
 				</FontString>
 				<FontString name="$parentChannelsStr" inherits="GameFontNormalSmall" text="CHANNELS" justifyH="LEFT" justifyV="BOTTOM">
-					<Size><AbsDimension x="45" y="18" /></Size>
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parentMessageStr" relativePoint="BOTTOMLEFT">
-							<Offset><AbsDimension x="-5" y="-10" /></Offset>
-						</Anchor>
-					</Anchors>
+					<Size><AbsDimension x="60" y="14" /></Size>
 				</FontString>
-				<FontString name="$parentChannel1Str" inherits="GameFontHighlightSmall" text="1" justifyH="LEFT" justifyV="BOTTOM">
+				<FontString name="$parentChannel1Str" inherits="GameFontHighlightSmall" text="1" justifyH="CENTER" justifyV="BOTTOM">
 					<Size><AbsDimension x="10" y="18" /></Size>
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parentChannelsStr" relativePoint="TOPRIGHT">
-							<Offset><AbsDimension x="20" y="0" /></Offset>
-						</Anchor>
-					</Anchors>
 				</FontString>
-				<FontString name="$parentChannel2Str" inherits="GameFontHighlightSmall" text="2" justifyH="LEFT" justifyV="BOTTOM">
+				<FontString name="$parentChannel2Str" inherits="GameFontHighlightSmall" text="2" justifyH="CENTER" justifyV="BOTTOM">
 					<Size><AbsDimension x="10" y="18" /></Size>
-					<Anchors>
-						<Anchor point="LEFT" relativeTo="$parentChannel1Str" relativePoint="RIGHT">
-							<Offset><AbsDimension x="17" y="0" /></Offset>
-						</Anchor>
-					</Anchors>
 				</FontString>
-				<FontString name="$parentChannel3Str" inherits="GameFontHighlightSmall" text="3" justifyH="LEFT" justifyV="BOTTOM">
+				<FontString name="$parentChannel3Str" inherits="GameFontHighlightSmall" text="3" justifyH="CENTER" justifyV="BOTTOM">
 					<Size><AbsDimension x="10" y="18" /></Size>
-					<Anchors>
-						<Anchor point="LEFT" relativeTo="$parentChannel2Str" relativePoint="RIGHT">
-							<Offset><AbsDimension x="17" y="0" /></Offset>
-						</Anchor>
-					</Anchors>
 				</FontString>
-				<FontString name="$parentChannel4Str" inherits="GameFontHighlightSmall" text="4" justifyH="LEFT" justifyV="BOTTOM">
+				<FontString name="$parentChannel4Str" inherits="GameFontHighlightSmall" text="4" justifyH="CENTER" justifyV="BOTTOM">
 					<Size><AbsDimension x="10" y="18" /></Size>
-					<Anchors>
-						<Anchor point="LEFT" relativeTo="$parentChannel3Str" relativePoint="RIGHT">
-							<Offset><AbsDimension x="17" y="0" /></Offset>
-						</Anchor>
-					</Anchors>
 				</FontString>
-				<FontString name="$parentChannel5Str" inherits="GameFontHighlightSmall" text="5" justifyH="LEFT" justifyV="BOTTOM">
+				<FontString name="$parentChannel5Str" inherits="GameFontHighlightSmall" text="5" justifyH="CENTER" justifyV="BOTTOM">
 					<Size><AbsDimension x="10" y="18" /></Size>
-					<Anchors>
-						<Anchor point="LEFT" relativeTo="$parentChannel4Str" relativePoint="RIGHT">
-							<Offset><AbsDimension x="17" y="0" /></Offset>
-						</Anchor>
-					</Anchors>
 				</FontString>
-				<FontString name="$parentChannel6Str" inherits="GameFontHighlightSmall" text="6" justifyH="LEFT" justifyV="BOTTOM">
+				<FontString name="$parentChannel6Str" inherits="GameFontHighlightSmall" text="6" justifyH="CENTER" justifyV="BOTTOM">
 					<Size><AbsDimension x="10" y="18" /></Size>
-					<Anchors>
-						<Anchor point="LEFT" relativeTo="$parentChannel5Str" relativePoint="RIGHT">
-							<Offset><AbsDimension x="17" y="0" /></Offset>
-						</Anchor>
-					</Anchors>
 				</FontString>
-				<FontString name="$parentChannel7Str" inherits="GameFontHighlightSmall" text="7" justifyH="LEFT" justifyV="BOTTOM">
+				<FontString name="$parentChannel7Str" inherits="GameFontHighlightSmall" text="7" justifyH="CENTER" justifyV="BOTTOM">
 					<Size><AbsDimension x="10" y="18" /></Size>
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parentChannel1Str" relativePoint="BOTTOMLEFT">
-							<Offset><AbsDimension x="0" y="2" /></Offset>
-						</Anchor>
-					</Anchors>
 				</FontString>
-				<FontString name="$parentChannel8Str" inherits="GameFontHighlightSmall" text="8" justifyH="LEFT" justifyV="BOTTOM">
+				<FontString name="$parentChannel8Str" inherits="GameFontHighlightSmall" text="8" justifyH="CENTER" justifyV="BOTTOM">
 					<Size><AbsDimension x="10" y="18" /></Size>
-					<Anchors>
-						<Anchor point="LEFT" relativeTo="$parentChannel7Str" relativePoint="RIGHT">
-							<Offset><AbsDimension x="17" y="0" /></Offset>
-						</Anchor>
-					</Anchors>
 				</FontString>
-				<FontString name="$parentChannelGuildStr" inherits="GameFontHighlightSmall" text="GUILD " justifyH="LEFT" justifyV="BOTTOM">
+				<FontString name="$parentChannelGuildStr" inherits="GameFontHighlightSmall" text="GUILD " justifyH="CENTER" justifyV="BOTTOM">
 					<Size><AbsDimension x="35" y="18" /></Size>
-					<Anchors>
-						<Anchor point="LEFT" relativeTo="$parentChannel8Str" relativePoint="RIGHT">
-							<Offset><AbsDimension x="17" y="0" /></Offset>
-						</Anchor>
-					</Anchors>
 				</FontString>
-				<FontString name="$parentChannelYellStr" inherits="GameFontHighlightSmall" text="YELL" justifyH="LEFT" justifyV="BOTTOM">
+				<FontString name="$parentChannelYellStr" inherits="GameFontHighlightSmall" text="YELL" justifyH="CENTER" justifyV="BOTTOM">
 					<Size><AbsDimension x="35" y="18" /></Size>
-					<Anchors>
-						<Anchor point="LEFT" relativeTo="$parentChannelGuildStr" relativePoint="RIGHT">
-							<Offset><AbsDimension x="17" y="0" /></Offset>
-						</Anchor>
-					</Anchors>
 				</FontString>
-				<FontString name="$parentPreviewStr" inherits="GameFontNormal" text="Preview" justifyH="LEFT" justifyV="BOTTOM">
+				<FontString name="$parentPreviewStr" inherits="GameFontNormal" text="Preview" justifyH="LEFT" justifyV="TOP">
 					<Size><AbsDimension x="55" y="18" /></Size>
-					<Anchors>
-						<Anchor point="TOPLEFT" >
-							<Offset><AbsDimension x="20" y="-292" /></Offset>
-						</Anchor>
-						<Anchor point="TOPRIGHT" >
-							<Offset><AbsDimension x="-15" y="-292" /></Offset>
-						</Anchor>
-					</Anchors>
+				</FontString>
+				<FontString name="$parentLength" inherits="KRTFontStringGray" text="0/255" justifyH="RIGHT" justifyV="TOP">
+					<Size><AbsDimension x="55" y="18" /></Size>
 				</FontString>
 				<FontString name="$parentOutput" inherits="GameFontHighlightSmall" text="Start typing to see the final message." justifyH="LEFT" justifyV="TOP">
 					<Size><AbsDimension x="218" y="0" /></Size>
 					<Anchors>
-						<Anchor point="TOPLEFT">
-							<Offset><AbsDimension x="20" y="-312" /></Offset>
-						</Anchor>
 						<Anchor point="BOTTOMRIGHT">
 							<Offset><AbsDimension x="-15" y="15" /></Offset>
-						</Anchor>
-					</Anchors>
-				</FontString>
-				<FontString name="$parentLength" inherits="KRTFontStringGray" text="0/255" justifyH="RIGHT" justifyV="MIDDLE">
-					<Size><AbsDimension x="55" y="18" /></Size>
-					<Anchors>
-						<Anchor point="TOPRIGHT" >
-							<Offset><AbsDimension x="-15" y="-298" /></Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -506,6 +424,15 @@
 				</Anchors>
 				<Scripts><OnClick>KRT.Spammer:Clear()</OnClick></Scripts>
 			</Button>
+			<Button name="$parentPresetBtn" inherits="KRTButtonTemplate" text="Presets">
+				<Size><AbsDimension x="60" y="19" /></Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parentClearBtn" relativePoint="TOPLEFT">
+						<Offset><AbsDimension x="-4" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Spammer:ShowPresetsMenu(self)</OnClick></Scripts>
+			</Button>
 			<EditBox name="$parentName" inherits="KRTSpammerEditBox" letters="15">
 				<Size><AbsDimension x="75" y="18" /></Size>
 				<Anchors>
@@ -520,7 +447,7 @@
 				<Size><AbsDimension x="75" y="26" /></Size>
 				<Anchors>
 					<Anchor point="TOPRIGHT">
-						<Offset><AbsDimension x="-15" y="-50" /></Offset>
+						<Offset><AbsDimension x="-25" y="-50" /></Offset>
 					</Anchor>
 				</Anchors>
 			</Button>
@@ -620,85 +547,91 @@
 				</Scripts>
 			</EditBox>
 			<EditBox name="$parentMessage" inherits="KRTSpammerEditBox">
-				<Size><AbsDimension x="100" y="13" /></Size>
+				<Size><AbsDimension x="145" y="26" /></Size>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentRanged" relativePoint="BOTTOMLEFT">
-						<Offset><AbsDimension x="0" y="-15" /></Offset>
-					</Anchor>
-					<Anchor point="TOPRIGHT" relativeTo="$parentRangedClass" relativePoint="BOTTOMRIGHT">
-						<Offset><AbsDimension x="0" y="-15" /></Offset>
+						<Offset><AbsDimension x="0" y="-43" /></Offset>
 					</Anchor>
 				</Anchors>
 				<Scripts><OnTabPressed>KRT.Spammer:Tab("Name", "RangedClass")</OnTabPressed>
 				</Scripts>
 			</EditBox>
+			<Button name="$parentAchvBtn" inherits="KRTButtonTemplate" text="Achievement">
+				<Size><AbsDimension x="96" y="19" /></Size>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativeTo="$parentMessage" relativePoint="TOPRIGHT">
+						<Offset><AbsDimension x="0" y="4" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Spammer:OpenAchievement()</OnClick></Scripts>
+			</Button>
 			<CheckButton name="$parentChat1" inherits="KRTSpammerCheckButton">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentMessage" relativePoint="BOTTOMLEFT">
-						<Offset><AbsDimension x="-25" y="-13" /></Offset>
+						<Offset><AbsDimension x="0" y="-40" /></Offset>
 					</Anchor>
 				</Anchors>
 			</CheckButton>
 			<CheckButton name="$parentChat2" inherits="KRTSpammerCheckButton">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentChat1" relativePoint="TOPRIGHT">
-						<Offset><AbsDimension x="12" y="0" /></Offset>
+						<Offset><AbsDimension x="8" y="0" /></Offset>
 					</Anchor>
 				</Anchors>
 			</CheckButton>
 			<CheckButton name="$parentChat3" inherits="KRTSpammerCheckButton">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentChat2" relativePoint="TOPRIGHT">
-						<Offset><AbsDimension x="12" y="0" /></Offset>
+						<Offset><AbsDimension x="8" y="0" /></Offset>
 					</Anchor>
 				</Anchors>
 			</CheckButton>
 			<CheckButton name="$parentChat4" inherits="KRTSpammerCheckButton">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentChat3" relativePoint="TOPRIGHT">
-						<Offset><AbsDimension x="12" y="0" /></Offset>
+						<Offset><AbsDimension x="8" y="0" /></Offset>
 					</Anchor>
 				</Anchors>
 			</CheckButton>
 			<CheckButton name="$parentChat5" inherits="KRTSpammerCheckButton">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentChat4" relativePoint="TOPRIGHT">
-						<Offset><AbsDimension x="12" y="0" /></Offset>
+						<Offset><AbsDimension x="8" y="0" /></Offset>
 					</Anchor>
 				</Anchors>
 			</CheckButton>
 			<CheckButton name="$parentChat6" inherits="KRTSpammerCheckButton">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentChat5" relativePoint="TOPRIGHT">
-						<Offset><AbsDimension x="12" y="0" /></Offset>
+						<Offset><AbsDimension x="8" y="0" /></Offset>
 					</Anchor>
 				</Anchors>
 			</CheckButton>
 			<CheckButton name="$parentChat7" inherits="KRTSpammerCheckButton">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentChat1" relativePoint="BOTTOMLEFT">
-						<Offset><AbsDimension x="0" y="0" /></Offset>
+						<Offset><AbsDimension x="0" y="-20" /></Offset>
 					</Anchor>
 				</Anchors>
 			</CheckButton>
 			<CheckButton name="$parentChat8" inherits="KRTSpammerCheckButton">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentChat7" relativePoint="TOPRIGHT">
-						<Offset><AbsDimension x="12" y="0" /></Offset>
+						<Offset><AbsDimension x="8" y="0" /></Offset>
 					</Anchor>
 				</Anchors>
 			</CheckButton>
 			<CheckButton name="$parentChatGuild" inherits="KRTSpammerCheckButton">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentChat8" relativePoint="TOPRIGHT">
-						<Offset><AbsDimension x="12" y="0" /></Offset>
+						<Offset><AbsDimension x="8" y="0" /></Offset>
 					</Anchor>
 				</Anchors>
 			</CheckButton>
 			<CheckButton name="$parentChatYell" inherits="KRTSpammerCheckButton">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentChatGuild" relativePoint="TOPRIGHT">
-						<Offset><AbsDimension x="38" y="0" /></Offset>
+						<Offset><AbsDimension x="8" y="0" /></Offset>
 					</Anchor>
 				</Anchors>
 			</CheckButton>
@@ -1195,7 +1128,7 @@
 	</Button>
 	<!-- The Frame: Changes -->
 	<Frame name="KRTChanges" inherits="KRTFrameTemplate">
-		<Size><AbsDimension x="248" y="205" /></Size>
+		<Size><AbsDimension x="268" y="205" /></Size>
 		<Frames>
 			<Button name="$parentClearBtn" inherits="KRTButtonTemplate" text="Clear">
 				<Size><AbsDimension x="65" y="19" /></Size>
@@ -1205,6 +1138,15 @@
 					</Anchor>
 				</Anchors>
 				<Scripts><OnClick>KRT.Changes:Clear()</OnClick></Scripts>
+			</Button>
+			<Button name="$parentPickBtn" inherits="KRTButtonTemplate" text="Pick">
+				<Size><AbsDimension x="55" y="19" /></Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parentClearBtn" relativePoint="TOPLEFT">
+						<Offset><AbsDimension x="-2" y="0" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnClick>KRT.Changes:ShowRosterMenu(self)</OnClick></Scripts>
 			</Button>
 			<EditBox name="$parentName" inherits="KRTEditBoxTemplate" letters="20" hidden="true">
 				<Size><AbsDimension x="65" y="18" /></Size>
@@ -1251,7 +1193,7 @@
 						<Offset><AbsDimension x="12" y="12" /></Offset>
 					</Anchor>
 				</Anchors>
-				<Scripts><OnClick>KRT.Changes:Demand()</OnClick></Scripts>
+				<Scripts><OnClick>KRT.Changes:ToggleListening()</OnClick></Scripts>
 			</Button>
 			<Button name="$parentAnnounceBtn" inherits="KRTButtonTemplate" text="Announce">
 				<Size><AbsDimension x="105" y="25" /></Size>
@@ -2361,6 +2303,377 @@
 			</Frame>
 		</Frames>
 		<Scripts><OnLoad>KRT.Logger:OnLoad(self)</OnLoad></Scripts>
+	</Frame>
+
+	<Frame name="KRTAchvSearch" inherits="KRTFrameTemplate">
+		<Size><AbsDimension x="220" y="270" /></Size>
+		<Anchors>
+			<Anchor point="CENTER">
+				<Offset><AbsDimension x="0" y="0" /></Offset>
+			</Anchor>
+		</Anchors>
+		<Frames>
+			<EditBox name="$parentInput" inherits="KRTEditBoxTemplate" letters="60">
+				<Size><AbsDimension x="0" y="20" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="15" y="-30" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT">
+						<Offset><AbsDimension x="-15" y="-30" /></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnTextChanged>KRT.Spammer:AchvSearchUpdate(self:GetText())</OnTextChanged>
+					<OnEscapePressed>self:GetParent():Hide()</OnEscapePressed>
+				</Scripts>
+			</EditBox>
+			<Button name="$parentResult1" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentInput" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-10" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentInput" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-10" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentResult2" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentResult1" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentResult1" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentResult3" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentResult2" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentResult2" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentResult4" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentResult3" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentResult3" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentResult5" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentResult4" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentResult4" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentResult6" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentResult5" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentResult5" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentResult7" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentResult6" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentResult6" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentResult8" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentResult7" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentResult7" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentResizeGrip">
+				<Size><AbsDimension x="16" y="16" /></Size>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT">
+						<Offset><AbsDimension x="-4" y="4" /></Offset>
+					</Anchor>
+				</Anchors>
+				<NormalTexture file="Interface\ChatFrame\UI-ChatIM-SizeGrabber-Up" />
+				<HighlightTexture file="Interface\ChatFrame\UI-ChatIM-SizeGrabber-Highlight" />
+				<PushedTexture file="Interface\ChatFrame\UI-ChatIM-SizeGrabber-Down" />
+				<Scripts>
+					<OnMouseDown>self:GetParent():StartSizing("BOTTOMRIGHT")</OnMouseDown>
+					<OnMouseUp>self:GetParent():StopMovingOrSizing()</OnMouseUp>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnDragStart>self:StartMoving()</OnDragStart>
+			<OnDragStop>self:StopMovingOrSizing()</OnDragStop>
+			<OnLoad>KRT.Spammer:OnAchvSearchLoad(self)</OnLoad>
+			<OnShow>_G[self:GetName().."Input"]:SetText(""); _G[self:GetName().."Input"]:SetFocus()</OnShow>
+		</Scripts>
+	</Frame>
+
+	<Frame name="KRTListPicker" inherits="KRTFrameTemplate">
+		<Size><AbsDimension x="220" y="440" /></Size>
+		<Anchors>
+			<Anchor point="CENTER">
+				<Offset><AbsDimension x="0" y="0" /></Offset>
+			</Anchor>
+		</Anchors>
+		<Frames>
+			<Button name="$parentRow1" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="15" y="-30" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT">
+						<Offset><AbsDimension x="-15" y="-30" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow2" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow1" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow1" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow3" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow2" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow2" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow4" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow3" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow3" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow5" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow4" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow4" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow6" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow5" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow5" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow7" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow6" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow6" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow8" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow7" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow7" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow9" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow8" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow8" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow10" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow9" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow9" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow11" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow10" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow10" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow12" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow11" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow11" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow13" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow12" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow12" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow14" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow13" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow13" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow15" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow14" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow14" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow16" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow15" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow15" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow17" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow16" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow16" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow18" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow17" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow17" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow19" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow18" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow18" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentRow20" inherits="KRTButtonTemplate" hidden="true">
+				<Size><AbsDimension x="0" y="18" /></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentRow19" relativePoint="BOTTOMLEFT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+					<Anchor point="TOPRIGHT" relativeTo="$parentRow19" relativePoint="BOTTOMRIGHT">
+						<Offset><AbsDimension x="0" y="-2" /></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnDragStart>self:StartMoving()</OnDragStart>
+			<OnDragStop>self:StopMovingOrSizing()</OnDragStop>
+			<OnLoad>KRT:ListPickerLoad(self)</OnLoad>
+		</Scripts>
 	</Frame>
 
 </Ui>

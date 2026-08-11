@@ -275,7 +275,125 @@ local strsub, gsub, lower, upper = string.sub, string.gsub, string.lower, string
 local tostring, tonumber, ucfirst = tostring, tonumber, _G.string.ucfirst
 local deformat = LibStub("LibDeformat-3.0")
 
--- Returns the used frame's name:
+-- ==================== Shift-click link capture ==================== --
+-- Secure, non-overriding hook: fires after ANY hyperlink click (item,
+-- achievement, player, spell, quest...). If one of KRT's own edit boxes
+-- currently has keyboard focus, shift-clicking a link drops it straight
+-- in there instead of (or in addition to) the default chat behavior.
+-- Using hooksecurefunc instead of replacing ChatEdit_InsertLink avoids
+-- taint issues and guarantees this always runs, regardless of whatever
+-- Blizzard's internal link-click code path happens to call.
+local function TryInsertLink(text, linkType)
+	local targets = {
+		_G["KRTChangesName"],
+		_G["KRTSpammerMessage"],
+	}
+	for _, box in ipairs(targets) do
+		if box and box:IsVisible() and box:HasFocus() then
+			local insertText = text
+			if linkType == "player" then
+				insertText = match(text, "%[(.+)%]") or text
+			end
+			box:Insert(insertText)
+			-- If this was the Spammer Message box, sync the saved value too
+			-- (Insert() doesn't trigger Save(), so without this the next
+			-- periodic UI refresh would overwrite it with stale text):
+			if box == _G["KRTSpammerMessage"] and KRT_Spammer then
+				KRT_Spammer.Message = box:GetText():gsub("\n", " "):trim()
+			end
+			return true
+		end
+	end
+	return false
+end
+
+hooksecurefunc("SetItemRef", function(link, text, button)
+	if not IsShiftKeyDown() then return end
+	local linkType = strsplit(":", link)
+	TryInsertLink(text, linkType)
+end)
+
+-- Catches the click directly at the chat frame, in case a link type
+-- bypasses SetItemRef entirely:
+for i = 1, NUM_CHAT_WINDOWS do
+	local cf = _G["ChatFrame"..i]
+	if cf then
+		cf:HookScript("OnHyperlinkClick", function(self, link, text, button)
+			if not IsShiftKeyDown() then return end
+			local linkType = strsplit(":", link)
+			TryInsertLink(text, linkType)
+		end)
+	end
+end
+
+-- Catches shift-clicks made from panels that call ChatEdit_InsertLink
+-- directly (e.g. the Achievement frame's own share button), which never
+-- goes through a chat-frame click or SetItemRef at all:
+hooksecurefunc("ChatEdit_InsertLink", function(text)
+	if not IsShiftKeyDown() then return end
+	local linkType = match(text, "|H(%a+):")
+	TryInsertLink(text, linkType)
+end)
+
+-- ==================== Generic list picker ==================== --
+-- This server's UIDropDownMenu/EasyMenu system is broken (confirmed: the
+-- exact same "attempt to index local 'frame' (a number value)" crash
+-- happens both in Blizzard's own native Achievement UI dropdown and in our
+-- EasyMenu-based menus). So instead of any dropdown menu, every "pick one
+-- of several options" case in this addon uses this single reusable window:
+-- a title plus up to 20 plain buttons, no EasyMenu/UIDropDownMenu involved
+-- at all.
+local listPickerFrame
+local listPickerItems = {}
+
+function addon:ListPickerLoad(frame)
+	listPickerFrame = frame
+	local name = frame:GetName()
+
+	frame:EnableMouse(true)
+	frame:SetMovable(true)
+	frame:RegisterForDrag("LeftButton")
+
+	for i = 1, 20 do
+		local btn = _G[name.."Row"..i]
+		btn:SetScript("OnClick", function()
+			local item = listPickerItems[i]
+			frame:Hide()
+			if item and item.onClick then
+				item.onClick()
+			end
+		end)
+	end
+end
+
+-- title: string shown in the window's title bar.
+-- items: array of { text = "...", onClick = function() ... end }, max 20.
+function addon:ShowListPicker(title, items)
+	if not listPickerFrame then return end
+	local name = listPickerFrame:GetName()
+
+	local titleFS = _G[name.."Title"]
+	if titleFS then
+		titleFS:SetText(title or "Pick one")
+	end
+
+	for i = 1, 20 do
+		listPickerItems[i] = nil
+		_G[name.."Row"..i]:Hide()
+	end
+
+	for i, item in ipairs(items or {}) do
+		if i > 20 then break end
+		listPickerItems[i] = item
+		local btn = _G[name.."Row"..i]
+		btn:SetText(item.text)
+		btn:Show()
+	end
+
+	listPickerFrame:Show()
+end
+
+
 function addon:GetFrameName()
 	local name
 	if UIMaster ~= nil then
@@ -2687,6 +2805,7 @@ do
 	local changesTable = {}
 	local FetchChanges, SaveChanges, CancelChanges
 	local fetched = false
+	local listening = false
 	local selectedID, tempSelectedID
 	local isAdd = false
 	local isEdit = false
@@ -2698,6 +2817,34 @@ do
 		frameName = frame:GetName()
 		frame:RegisterForDrag("LeftButton")
 		frame:SetScript("OnUpdate", UpdateUIFrame)
+	end
+
+	-- Shows a menu of current raid members; picking one drops their name
+	-- straight into the Name box (opens Add mode if it isn't already open):
+	function Changes:ShowRosterMenu(anchor)
+		local items = {}
+		local num = GetNumRaidMembers()
+		if num and num > 0 then
+			for i = 1, num do
+				local name = GetRaidRosterInfo(i)
+				if name then
+					tinsert(items, {
+						text = name,
+						onClick = function()
+							if not _G[frameName.."Name"]:IsShown() then
+								Changes:Add()
+							end
+							_G[frameName.."Name"]:SetText(name)
+							_G[frameName.."Spec"]:SetFocus()
+						end,
+					})
+				end
+			end
+		end
+		if #items == 0 then
+			tinsert(items, { text = "No raid members found", onClick = function() end })
+		end
+		addon:ShowListPicker("Pick a Raid Member", items)
 	end
 
 	-- Toggle frame visibility:
@@ -2809,13 +2956,37 @@ do
 
 	-- Ask For Changes:
 	function Changes:Demand()
-		if not KRT_CurrentRaid then return end
+		if not KRT_CurrentRaid then
+			addon:PrintError("MS Demand only works during an active raid.")
+			return
+		end
 		addon:Announce(L.StrChangesDemand)
+		listening = true
+		addon:Print("Now capturing MS changes from raid chat. Use /krt ms stop when done.", "KRT")
+	end
+
+	-- Manually close the capture window (opened by Demand):
+	function Changes:StopListening()
+		listening = false
+		addon:Announce("MS change closed")
+	end
+
+	-- Same button toggles Demand/Stop depending on current state:
+	function Changes:ToggleListening()
+		if not KRT_CurrentRaid then return end
+		if listening then
+			self:StopListening()
+		else
+			self:Demand()
+		end
 	end
 
 	-- Spam Changes:
 	function Changes:Announce()
-		if not KRT_CurrentRaid then return end
+		if not KRT_CurrentRaid then
+			addon:PrintError("MS Announce only works during an active raid.")
+			return
+		end
 		-- In case of a reload/relog and the frame wasn't loaded
 		if not fetched or #changesTable == 0 then
 			InitChangesTable()
@@ -2835,12 +3006,12 @@ do
 			if not changesTable[name] then return end
 			msg = format(L.StrChangesAnnounceOne, name, changesTable[name])
 		else
-			msg = L.StrChangesAnnounce
+			msg = ""
 			local i = count
 			for n, c in pairs(changesTable) do
-				msg = msg.." "..n.."="..c
+				msg = msg..n.." "..c
 				i = i - 1
-				if i > 0 then msg = msg.." /" end
+				if i > 0 then msg = msg.." // " end
 			end
 		end
 		addon:Announce(msg)
@@ -2895,6 +3066,7 @@ do
 			Utils.enableDisable(_G[frameName.."AnnounceBtn"], count > 0)
 			Utils.enableDisable(_G[frameName.."AddBtn"], KRT_CurrentRaid)
 			Utils.enableDisable(_G[frameName.."DemandBtn"], KRT_CurrentRaid)
+			Utils.setText(_G[frameName.."DemandBtn"], "Stop", L.BtnDemand, listening)
 		end
 	end
 
@@ -2943,6 +3115,44 @@ do
 		changesTable[name] = (spec == "") and nil or spec
 		CancelChanges()
 		fetched = false
+	end
+
+	-- Auto-capture a spec change from a whisper. Silently ignores whispers
+	-- from anyone not currently in the raid (so random whispers don't spam
+	-- "player not found" errors); confirms quietly on a real match:
+	-- Words that mark a raid-chat message as a spec/role declaration.
+	-- "ms"/"os" always qualify; otherwise a known spec/role name must appear:
+	local specKeywords = {
+		"ms", "os", "tank", "heal", "healer", "healing", "dps", "melee", "ranged",
+		"prot", "protection", "fury", "arms", "frost", "fire", "arcane",
+		"shadow", "holy", "disc", "discipline", "resto", "restoration",
+		"feral", "balance", "enhancement", "elemental", "retribution", "ret",
+		"unholy", "blood", "assassination", "combat", "subtlety", "sub",
+		"survival", "marksmanship", "mm", "bm", "beastmastery",
+		"demonology", "destruction", "affliction",
+	}
+	local specKeywordSet = {}
+	for _, k in ipairs(specKeywords) do specKeywordSet[k] = true end
+
+	local function ContainsSpecKeyword(msg)
+		msg = msg:lower()
+		for word in msg:gmatch("%a+") do
+			if specKeywordSet[word] then return true end
+		end
+		return false
+	end
+
+	function Changes:Capture(name, spec)
+		if not KRT_CurrentRaid or not listening or not name or not spec then return end
+		if not ContainsSpecKeyword(spec) then return end
+		spec = ucfirst(spec:trim())
+		if spec == "" then return end
+		local found
+		found, name = addon.Raid:CheckPlayer(name)
+		if not found then return end
+		changesTable[name] = spec
+		fetched = false
+		addon:Print(format("Captured MS change: %s -> %s", name, spec), "KRT")
 	end
 
 	-- Cancel all actions:
@@ -3001,6 +3211,82 @@ do
 		frameName = frame:GetName()
 		frame:RegisterForDrag("LeftButton")
 		frame:SetScript("OnUpdate", UpdateUIFrame)
+
+		-- These labels sit far down a long anchor chain that crosses from
+		-- the Layers block to the Frames block; this client doesn't reliably
+		-- resolve that in XML, so position them explicitly here instead,
+		-- once every element is guaranteed to already exist:
+		local name = frame:GetName()
+		local messageStr = _G[name.."MessageStr"]
+		local channelsStr = _G[name.."ChannelsStr"]
+		local previewStr = _G[name.."PreviewStr"]
+		local lengthStr = _G[name.."Length"]
+		local outputStr = _G[name.."Output"]
+
+		if messageStr then
+			messageStr:ClearAllPoints()
+			messageStr:SetPoint("LEFT", _G[name.."Message"], "LEFT", -70, 0)
+		end
+		if channelsStr then
+			channelsStr:ClearAllPoints()
+			channelsStr:SetPoint("LEFT", _G[name.."Chat1"], "LEFT", -70, 0)
+		end
+		if outputStr then
+			outputStr:ClearAllPoints()
+			outputStr:SetPoint("TOPLEFT", _G[name.."Chat7"], "BOTTOMLEFT", 0, -15)
+			outputStr:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -15, 15)
+		end
+		if previewStr and outputStr then
+			previewStr:ClearAllPoints()
+			previewStr:SetPoint("TOPLEFT", outputStr, "TOPLEFT", -70, 0)
+		end
+		if lengthStr and outputStr then
+			lengthStr:ClearAllPoints()
+			lengthStr:SetPoint("BOTTOMRIGHT", outputStr, "BOTTOMRIGHT", 0, 0)
+		end
+
+		-- Channel number/name labels: anchor each directly above its own
+		-- checkbox instead of chaining off each other (their old spacing
+		-- didn't match the checkboxes' actual spacing, so they drifted out
+		-- of alignment across the row):
+		local channelBoxes = { "Chat1", "Chat2", "Chat3", "Chat4", "Chat5",
+			"Chat6", "Chat7", "Chat8", "ChatGuild", "ChatYell" }
+		local channelLabels = { "Channel1Str", "Channel2Str", "Channel3Str",
+			"Channel4Str", "Channel5Str", "Channel6Str", "Channel7Str",
+			"Channel8Str", "ChannelGuildStr", "ChannelYellStr" }
+		local channelLabelXOffset = {}
+		for i, boxName in ipairs(channelBoxes) do
+			local box = _G[name..boxName]
+			local label = _G[name..channelLabels[i]]
+			if box and label then
+				label:ClearAllPoints()
+				label:SetPoint("BOTTOM", box, "TOP", channelLabelXOffset[channelLabels[i]] or 0, 2)
+			end
+		end
+	end
+
+	-- TEMP DEBUG: dumps the real computed position of every key element
+	-- so we can see actual client-side numbers instead of guessing:
+	function Spammer:DebugPositions()
+		local names = {
+			"Ranged", "AchvBtn", "Message", "MessageStr", "Chat1", "Chat7",
+			"ChannelsStr", "Channel1Str", "Channel8Str", "ChatYell", "ChannelYellStr",
+			"PreviewStr", "Output", "Length", "NeedStr", "ClassStr",
+		}
+		print("|cff00ff00[KRT DEBUG]|r Frame height: "..UISpammer:GetHeight())
+		for _, n in ipairs(names) do
+			local obj = _G[frameName..n]
+			if obj then
+				local top = obj:GetTop()
+				local bottom = obj:GetBottom()
+				print(("|cff00ff00[KRT DEBUG]|r %s: top=%s bottom=%s"):format(
+					n, top and string.format("%.0f", top) or "nil",
+					bottom and string.format("%.0f", bottom) or "nil"
+				))
+			else
+				print("|cff00ff00[KRT DEBUG]|r "..n..": NOT FOUND")
+			end
+		end
 	end
 
 	-- Toggle frame visibility:
@@ -3032,6 +3318,9 @@ do
 			end
 		else
 			local value = box:GetText():trim()
+			if target == "Message" then
+				value = value:gsub("\n", " ")
+			end
 			value = (value == "") and nil or value
 			KRT_Spammer[target] = value
 			box:ClearFocus()
@@ -3103,7 +3392,7 @@ do
 	-- Clears Data
 	function Spammer:Clear()
 		for k, _ in pairs(KRT_Spammer) do
-			if k ~= "Channels" and k ~= "Duration" then
+			if k ~= "Channels" and k ~= "Duration" and k ~= "Presets" then
 				KRT_Spammer[k] = nil
 			end
 		end
@@ -3119,6 +3408,250 @@ do
 		_G[frameName.."Ranged"]:SetText("")
 		_G[frameName.."RangedClass"]:SetText("")
 		_G[frameName.."Message"]:SetText("")
+	end
+
+	-- ============ LFM Presets (user-defined) ============ --
+
+	local presetFields = {
+		"Name", "Tank", "TankClass", "Healer", "HealerClass",
+		"Melee", "MeleeClass", "Ranged", "RangedClass", "Message", "Duration",
+	}
+
+	-- Save the currently entered form as a named preset:
+	function Spammer:SavePreset(name)
+		if not name or name:trim() == "" then return end
+		name = name:trim()
+		KRT_Spammer.Presets = KRT_Spammer.Presets or {}
+		local data = {}
+		for _, k in ipairs(presetFields) do
+			data[k] = KRT_Spammer[k]
+		end
+		local channels = {}
+		if KRT_Spammer.Channels then
+			for i, c in ipairs(KRT_Spammer.Channels) do channels[i] = c end
+		end
+		data.Channels = channels
+		KRT_Spammer.Presets[name] = data
+		addon:Print("Preset \""..name.."\" saved.", "KRT")
+	end
+
+	-- Load a named preset back into the form:
+	function Spammer:LoadPreset(name)
+		local preset = KRT_Spammer.Presets and KRT_Spammer.Presets[name]
+		if not preset then return end
+
+		-- Uncheck all channel boxes first, then re-check the preset's ones:
+		for i = 1, 8 do
+			if _G[frameName.."Chat"..i] then _G[frameName.."Chat"..i]:SetChecked(false) end
+		end
+		if _G[frameName.."ChatGuild"] then _G[frameName.."ChatGuild"]:SetChecked(false) end
+		if _G[frameName.."ChatYell"] then _G[frameName.."ChatYell"]:SetChecked(false) end
+
+		for _, k in ipairs(presetFields) do
+			KRT_Spammer[k] = preset[k]
+		end
+		local channels = {}
+		if preset.Channels then
+			for i, c in ipairs(preset.Channels) do channels[i] = c end
+		end
+		KRT_Spammer.Channels = channels
+
+		loaded = false -- forces UpdateUIFrame to re-populate every box next tick
+	end
+
+	-- Delete a named preset:
+	function Spammer:DeletePreset(name)
+		if KRT_Spammer.Presets then
+			KRT_Spammer.Presets[name] = nil
+			addon:Print("Preset \""..name.."\" deleted.", "KRT")
+		end
+	end
+
+	-- Shows a dedicated picker where clicking any preset deletes it directly:
+	function Spammer:ShowDeletePresetMenu()
+		local items = {}
+		local names = {}
+		if KRT_Spammer.Presets then
+			for presetName in pairs(KRT_Spammer.Presets) do tinsert(names, presetName) end
+			table.sort(names)
+		end
+		for _, presetName in ipairs(names) do
+			tinsert(items, {
+				text = presetName,
+				onClick = function() Spammer:DeletePreset(presetName) end,
+			})
+		end
+		if #items == 0 then
+			tinsert(items, { text = "No presets saved", onClick = function() end })
+		end
+		addon:ShowListPicker("Delete Preset (click to delete)", items)
+	end
+
+	-- Shows the Presets picker (save new / load / delete):
+	function Spammer:ShowPresetsMenu(anchor)
+		local items = {
+			{ text = "Save Current as Preset...",
+				onClick = function() StaticPopup_Show("KRT_PRESET_SAVE") end },
+		}
+		local names = {}
+		if KRT_Spammer.Presets then
+			for presetName in pairs(KRT_Spammer.Presets) do tinsert(names, presetName) end
+			table.sort(names)
+		end
+		if #names > 0 then
+			tinsert(items, { text = "Delete a Preset...",
+				onClick = function() Spammer:ShowDeletePresetMenu() end })
+		end
+		for _, presetName in ipairs(names) do
+			tinsert(items, {
+				text = presetName,
+				onClick = function() Spammer:LoadPreset(presetName) end,
+			})
+		end
+		addon:ShowListPicker("Presets", items)
+	end
+
+	StaticPopupDialogs["KRT_PRESET_SAVE"] = {
+		text = "Enter a name for this preset:",
+		button1 = ACCEPT,
+		button2 = CANCEL,
+		hasEditBox = 1,
+		maxLetters = 30,
+		OnAccept = function(dialog)
+			local name = dialog.editBox:GetText()
+			Spammer:SavePreset(name)
+		end,
+		EditBoxOnEnterPressed = function(self)
+			self:GetParent().button1:Click()
+		end,
+		EditBoxOnEscapePressed = function(self)
+			self:GetParent():Hide()
+		end,
+		timeout = 0,
+		whileDead = true,
+		hideOnEscape = true,
+		preferredIndex = 3,
+	}
+
+	-- Searches every achievement category for a name match (substring,
+	-- anywhere in the name — not just from the start):
+	local function SearchAchievements(query)
+		local results = {}
+		local categories = GetCategoryList()
+		for _, catID in ipairs(categories) do
+			local numAch = GetCategoryNumAchievements(catID)
+			for i = 1, numAch do
+				local id, name = GetAchievementInfo(catID, i)
+				if id and name and name:lower():find(query, 1, true) then
+					tinsert(results, { id = id, name = name, kind = "achievement" })
+				end
+			end
+		end
+		return results
+	end
+
+	-- Searches the player's current quest log for a name match. Quests can
+	-- only be linked while they're actually in your log (GetQuestLink takes
+	-- a quest-log index on this client, not a global quest ID):
+	local function SearchQuestLog(query)
+		local results = {}
+		local numEntries = GetNumQuestLogEntries()
+		for i = 1, numEntries do
+			local title, _, _, _, isHeader = GetQuestLogTitle(i)
+			if not isHeader and title and title:lower():find(query, 1, true) then
+				tinsert(results, { id = i, name = title, kind = "quest" })
+			end
+		end
+		return results
+	end
+
+	local function InsertResult(result)
+		local msgBox = _G[frameName.."Message"]
+		if not msgBox then return end
+		local link
+		if result.kind == "quest" then
+			link = GetQuestLink(result.id)
+		else
+			link = GetAchievementLink(result.id)
+		end
+		if link then
+			msgBox:Insert(link)
+			-- Sync the saved value immediately: Insert() doesn't trigger
+			-- Save(), so without this the next periodic UI refresh would
+			-- overwrite the box with the stale pre-insert text the moment
+			-- any other field loses focus:
+			KRT_Spammer.Message = msgBox:GetText():gsub("\n", " "):trim()
+		else
+			addon:PrintError("Couldn't get a link for that "..result.kind..".")
+		end
+	end
+
+	local achvSearchFrame
+	local achvResults = {}
+
+	function Spammer:OnAchvSearchLoad(frame)
+		achvSearchFrame = frame
+		local name = frame:GetName()
+
+		frame:EnableMouse(true)
+		frame:SetMovable(true)
+		frame:SetResizable(true)
+		frame:RegisterForDrag("LeftButton")
+		frame:SetMinResize(220, 270)
+		frame:SetMaxResize(500, 600)
+
+		local title = _G[name.."Title"]
+		if title then
+			title:SetText("Search Achievement / Quest Log")
+		end
+
+		for i = 1, 8 do
+			local btn = _G[name.."Result"..i]
+			btn:SetScript("OnClick", function()
+				local result = achvResults[i]
+				if result then
+					InsertResult(result)
+					frame:Hide()
+				end
+			end)
+		end
+	end
+
+	-- Live-filters as the person types, across both achievements and the
+	-- current quest log; matches anywhere in the name:
+	function Spammer:AchvSearchUpdate(query)
+		local name = achvSearchFrame:GetName()
+		for i = 1, 8 do
+			achvResults[i] = nil
+			_G[name.."Result"..i]:Hide()
+		end
+		if not query or query:trim() == "" then return end
+		query = query:trim():lower()
+
+		local results = {}
+		for _, r in ipairs(SearchQuestLog(query)) do
+			tinsert(results, r)
+			if #results >= 8 then break end
+		end
+		if #results < 8 then
+			for _, r in ipairs(SearchAchievements(query)) do
+				tinsert(results, r)
+				if #results >= 8 then break end
+			end
+		end
+
+		for i, r in ipairs(results) do
+			achvResults[i] = r
+			local btn = _G[name.."Result"..i]
+			local tag = (r.kind == "quest") and "[Quest] " or "[Achv] "
+			btn:SetText(tag..r.name)
+			btn:Show()
+		end
+	end
+
+	-- Opens the live achievement/quest search:
+	function Spammer:OpenAchievement()
+		Utils.toggle(achvSearchFrame)
 	end
 
 	-- Localizing ui frame:
@@ -3144,6 +3677,12 @@ do
 			L.StrSpammerMessageHelp2,
 			L.StrSpammerMessageHelp3,
 		})
+
+		local achvBtn = _G[frameName.."AchvBtn"]
+		if achvBtn then
+			achvBtn.tooltip_title = "Achievement / Quest"
+			addon:SetTooltip(achvBtn, "Type any part of an achievement or quest name to search live (quests must be in your current log), then click a result to insert its real link into the Message box above.")
+		end
 
 		localized = true
 	end
@@ -3177,7 +3716,7 @@ do
 				meleeClass  = _G[frameName.."MeleeClass"]:GetText():trim()
 				ranged      = tonumber(_G[frameName.."Ranged"]:GetText()) or 0
 				rangedClass = _G[frameName.."RangedClass"]:GetText():trim()
-				message     = _G[frameName.."Message"]:GetText():trim()
+				message     = _G[frameName.."Message"]:GetText():gsub("\n", " "):trim()
 
 				local temp = output
 				if string.trim(name) ~= "" then temp = temp.." "..name end
@@ -3453,25 +3992,42 @@ do
 	end
 
 	do
-		local itemMenu
 		local function OpenItemMenu(btn)
 			if not addon.Logger.selectedItem then return end
-			itemMenu = itemMenu or CreateFrame("Frame", "KRTLoggerItemMenuFrame", UIParent, "UIDropDownMenuTemplate")
-			local menuList = {
+			local iID = addon.Logger.selectedItem
+			local items = {
 				{
 					text = L.StrEditItemLooter,
-					func = function() StaticPopup_Show("KRTLOGGER_ITEM_EDIT_WINNER") end
+					onClick = function() StaticPopup_Show("KRTLOGGER_ITEM_EDIT_WINNER") end
 				},
 				{
 					text = L.StrEditItemRollType,
-					func = function() StaticPopup_Show("KRTLOGGER_ITEM_EDIT_ROLL") end
+					onClick = function() StaticPopup_Show("KRTLOGGER_ITEM_EDIT_ROLL") end
 				},
 				{
 					text = L.StrEditItemRollValue,
-					func = function() StaticPopup_Show("KRTLOGGER_ITEM_EDIT_VALUE") end
-				}
+					onClick = function() StaticPopup_Show("KRTLOGGER_ITEM_EDIT_VALUE") end
+				},
+				{
+					text = "Reroll: MS",
+					onClick = function() addon.Logger.Loot:StartReroll(iID, rollTypes.mainspec) end
+				},
+				{
+					text = "Reroll: OS",
+					onClick = function() addon.Logger.Loot:StartReroll(iID, rollTypes.offspec) end
+				},
+				{
+					text = "Reroll: Free",
+					onClick = function() addon.Logger.Loot:StartReroll(iID, rollTypes.free) end
+				},
 			}
-			EasyMenu(menuList, itemMenu, "cursor", 0 , 0, "MENU")
+			if addon.Logger.Loot:IsRerolling(iID) then
+				tinsert(items, {
+					text = "Confirm Reroll Winner",
+					onClick = function() addon.Logger.Loot:ConfirmReroll() end
+				})
+			end
+			addon:ShowListPicker("Item Options", items)
 		end
 
 		-- Select an item:
@@ -4544,6 +5100,53 @@ do
 		GameTooltip:SetHyperlink(raidLoot[iID].itemString)
 	end
 
+	-- Reroll: start a fresh roll for an already-logged item, without
+	-- needing a live loot window session. Reuses the same roll-tracking
+	-- system (ClearRolls/RecordRolls/CHAT_MSG_SYSTEM listener) the normal
+	-- Master Loot flow uses, so results show up the same way:
+	function Loot:StartReroll(iID, rollType)
+		if not iID or not raidLoot[iID] then return end
+		local itemLink = raidLoot[iID].itemString
+		if not itemLink then return end
+
+		addon:ClearRolls()
+		addon:RecordRolls(true)
+		currentRollType = rollType
+		currentRollItem = iID
+		winner = nil
+
+		local chatKey = "ChatRollFree"
+		if rollType == rollTypes.mainspec then
+			chatKey = "ChatRollMS"
+		elseif rollType == rollTypes.offspec then
+			chatKey = "ChatRollOS"
+		end
+		addon:Announce(L[chatKey]:format(itemLink))
+
+		if UIMaster then UIMaster:Show() end
+	end
+
+	-- Reroll: confirm whoever is currently selected as the winner (by
+	-- clicking their entry in the Master Loot roll list) and update this
+	-- item's logged looter accordingly:
+	function Loot:ConfirmReroll()
+		if not currentRollItem or currentRollItem == 0 or not winner then return end
+		local itemLink = raidLoot[currentRollItem] and raidLoot[currentRollItem].itemString
+		addon:Log(currentRollItem, winner, currentRollType, addon:HighestRoll())
+		if itemLink then
+			addon:Announce(winner.." wins "..itemLink)
+		end
+		addon:ClearRolls()
+		currentRollItem = 0
+		winner = nil
+		fetched = false
+	end
+
+	-- Whether a reroll is currently active for the given item:
+	function Loot:IsRerolling(iID)
+		return currentRollItem ~= 0 and currentRollItem == iID
+	end
+
 	-- Delete an item:
 	do
 		local function DeleteItem()
@@ -4894,12 +5497,15 @@ do
 					addon.Changes:Toggle()
 				elseif cmd2 == "demand" or cmd2 == "ask" then
 					addon.Changes:Demand()
+				elseif cmd2 == "stop" then
+					addon.Changes:StopListening()
 				elseif cmd2 == "announce" or cmd2 == "spam" then
 					addon.Changes:Announce()
 				else
 					addon:Print(format(L.StrCmdCommands, "krt ms"), "KRT")
 					print(helpString:format("toggle", L.StrCmdToggle))
 					print(helpString:format("demand", L.StrCmdChangesDemand))
+					print(helpString:format("stop", "close the raid-chat capture window"))
 					print(helpString:format("announce", L.StrCmdChangesAnnounce))
 				end
 
@@ -4923,6 +5529,8 @@ do
 					addon.Spammer:Start()
 				elseif cmd2 == "stop" then
 					addon.Spammer:Stop()
+				elseif cmd2 == "debug" then
+					addon.Spammer:DebugPositions()
 				else
 					addon:Print(format(L.StrCmdCommands, "krt pug"), "KRT")
 					print(helpString:format("toggle", L.StrCmdToggle))
@@ -4961,6 +5569,8 @@ function addon:ADDON_LOADED(name)
 		"CHAT_MSG_SYSTEM",
 		"CHAT_MSG_LOOT",
 		"CHAT_MSG_MONSTER_YELL",
+		"CHAT_MSG_RAID",
+		"CHAT_MSG_RAID_LEADER",
 		"RAID_ROSTER_UPDATE",
 		"PLAYER_ENTERING_WORLD",
 		"COMBAT_LOG_EVENT_UNFILTERED",
@@ -5006,6 +5616,19 @@ function addon:CHAT_MSG_MONSTER_YELL(...)
 		self.Raid:AddBoss(L.BossYells[text])
 	end
 end
+
+-- Auto-capture MS changes: anything a raid member types in raid chat is
+-- treated directly as their new spec, same as manually typing it into
+-- the Changes GUI:
+function addon:CHAT_MSG_RAID(msg, sender)
+	if not KRT_CurrentRaid then return end
+	sender = strsplit("-", sender)
+	if sender == UnitName("player") then return end
+	local spec = msg:trim()
+	if spec == "" then return end
+	self.Changes:Capture(sender, spec)
+end
+addon.CHAT_MSG_RAID_LEADER = addon.CHAT_MSG_RAID
 
 function addon:COMBAT_LOG_EVENT_UNFILTERED(...)
 	local _, event, _, _, _, destGUID, destName = ...
